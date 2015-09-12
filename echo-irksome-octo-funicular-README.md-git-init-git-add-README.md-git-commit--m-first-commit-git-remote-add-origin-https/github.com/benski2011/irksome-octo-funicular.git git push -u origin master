@@ -1,0 +1,77 @@
+#include <iostream>
+using namespace std; //normal start av cpp script
+
+int main()        //definerer main 
+{
+
+	int days;      //lager en int for dagene vi kommer til å bruke 
+	char n;
+	int days2; 
+	char minTemp;
+	char maxTemp;
+	char rainfall;
+
+
+
+	cout << "enter the number of days in your month: " << endl;
+	cin >> days;
+
+	if (days > 31 || days < 28) {
+
+		cout << "error, enter a value between 28 and 31 ";
+		exit(0);
+	}
+	//  i denne kolonen sjekker vi om hvor mange dager månden innholdt, om tallet er ugyldig stopper vi scriptet. 
+
+
+	else
+		
+		for (days2 = 28; days2 <= days; days2++)
+
+		{
+
+				cout << "enter the min temp for day: " << days2 << endl;
+				cin >> minTemp;
+
+				if (minTemp < -70 || minTemp > 70)
+				{
+
+					cout << "error, enter a value between -70 and 70 " << endl;
+					exit(0);
+				}
+				else
+
+					cout << "enter the max temp for day: " << days2 << endl;
+				cin >> maxTemp;
+				if (maxTemp > 70 || maxTemp < minTemp)
+				{
+					cout << "error, enter a value between " << minTemp << " and 70\n ";
+					exit(0);
+				}
+				else
+
+					cout << "enter the mm of rain for day: " << days2 << endl;
+				cin >> rainfall;
+
+				if (rainfall < 0 || rainfall > 200)
+				{
+					cout << "error, enter a value between 0 and 200 " << endl;
+					exit(0);
+				}
+
+		}
+
+			{
+				cout << "average min temp: " << minTemp << endl;
+				cout << "average max temp: " << maxTemp << endl;
+				cout << "average rainfall: " << rainfall << endl;
+				cout << "total rainfall: " << rainfall << endl;
+			}
+			return 0;
+
+}
+
+
+
+
+

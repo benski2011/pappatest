@@ -52,7 +52,7 @@ int main()																		//definerer main
 				cout << "enter the min temp for day: " << Days2 << endl;        //spørr om min temp 
 				cin >> MinTemp;
 
-				if (MinTemp < fMinTemp || MinTemp > fMaxTemp)                              //setter opp intervall for inputten fra user, om uten for disse, kjøres if skriptet
+				if (MinTemp < fMinTemp || MinTemp > fMaxTemp)                   //setter opp intervall for inputten fra user, om uten for disse, kjøres if skriptet
 				{
 
 					cout << "error, enter a value between " << fMinTemp <<  "and" <<  fMinTemp << endl;

@@ -55,7 +55,7 @@ int main()																		//definerer main
 				if (MinTemp < fMinTemp || MinTemp > fMaxTemp)                              //setter opp intervall for inputten fra user, om uten for disse, kjøres if skriptet
 				{
 
-					cout << "error, enter a value between -70 and 70 " << endl;
+					cout << "error, enter a value between " << fMinTemp <<  "and" <<  fMinTemp << endl;
 					exit(0);                                                    //om imput er utenfor intervallet exitter det scriptet. 
 				}
 
@@ -66,7 +66,7 @@ int main()																		//definerer main
 
 				if (MaxTemp > fMaxTemp || MaxTemp < MinTemp)                          //om user ikke holder seg innenfor intervallet kj;res dette scriptet
 				{
-					cout << "error, enter a value between " << MinTemp << " and 70\n ";
+					cout << "error, enter a value between " << MinTemp << " and" <<  fMaxTemp << endl;
 					exit(0);                                                    //viser user en feilmeldingom han bommer på intervalletm  og exitter script etterp
 				}
 				 
@@ -78,7 +78,7 @@ int main()																		//definerer main
 
 				if (Rainfall < fMinRainfall || Rainfall > fMaxRainfall)
 				{
-					cout << "error, enter a value between 0 and 200 " << endl;
+					cout << "error, enter a value between " << fMinRainfall "and 200 " << fMaxRainfall <<  endl;
 					exit(0);													//viser user en feilmelding om han bommer på intervallet,  og exitter script etterpå
 				}
 
@@ -98,7 +98,6 @@ int main()																		//definerer main
 
 		cout << "\nDo another? (y/n): ";										// spørr om user skal gjøre en til. 
 		cin >> n;
-		//int daysAverage = days;
 		SumMinTemp = 0, SumMaxTemp = 0, SumRainfall = 0;						// setter verdiene tilbake til 0 om bruker vil gjøre det på nytt.
 	}
 

@@ -78,7 +78,7 @@ int main()																		//definerer main
 
 				if (Rainfall < fMinRainfall || Rainfall > fMaxRainfall)
 				{
-					cout << "error, enter a value between " << fMinRainfall "and 200 " << fMaxRainfall <<  endl;
+					cout << "error, enter a value between " << fMinRainfall "and  " << fMaxRainfall <<  endl;
 					exit(0);													//viser user en feilmelding om han bommer på intervallet,  og exitter script etterpå
 				}
 
@@ -94,7 +94,7 @@ int main()																		//definerer main
 		cout << "average min temp: " << SumMinTemp / Days << endl;				// renger ut gjennsomsnitlig min temp. 
 		cout << "average max temp: " << SumMaxTemp / Days << endl;				// regner ut gjennsnittlig max temp for alle dagene
 		cout << "average Rainfall: " << SumRainfall / Days << endl;				// regner ut gjennomsnittlig nedbørs menge over alle dagene user puttet inn
-		cout << "total Rainfall: " << SumRainfall << endl;						// printer ut total nedbørs mengde
+		cout << "total Rainfall: "   << SumRainfall << endl;					// printer ut total nedbørs mengde
 
 		cout << "\nDo another? (y/n): ";										// spørr om user skal gjøre en til. 
 		cin >> n;

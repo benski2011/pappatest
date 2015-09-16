@@ -1,73 +1,102 @@
+// oblig number 2
+// Benjamin skinstad 470918, også lagt ut på github  
 #include <iostream>
-using namespace std; //normal start av cpp script
+using namespace std;														    //normal start av cpp script
 
-int main()        //definerer main 
+int main()																		//definerer main 
 {
 
-	int days;      //lager en int for dagene vi kommer til å bruke 
+	int days;																	//lager en int for dagene vi kommer til å bruke 
+	int maxTemp;																// lager en int for variablen max tempratur
+	int rainfall;																// lager en int for nedbørsmengden
+	int days2;																	// lager en alternativ int for å kunne sette opp en "for" loop for dager
+	int minTemp;																// lager en int for minimums tempraturen 
+	float sumMinTemp = 0;													    /* jeg lager en float for summen av minimums tempraturen. dette holder styr på 
+																				tempraturen underveis mellom alle loopene, jeg bruekr float fordi det kan bli desimal tall*/
+	float sumMaxTemp = 0;														// samme som over men for maks tempratur
+	float sumRainfall = 0;														// samme som sumMinTemp men for total menge nedbørsmengde
 	char n;
-	int days2; 
-	char minTemp;
-	char maxTemp;
-	char rainfall;
+	char y;
 
+	do																			// bruker "do" loop sånn at jeg kan kjøre den på nytt igjen om user vill det. 
+	{
+		cout << "enter the number of days in your month: " << endl;				
+		cin >> days;															// ber brukeren skrive inn antall dager i månden deres.
 
-
-	cout << "enter the number of days in your month: " << endl;
-	cin >> days;
-
-	if (days > 31 || days < 28) {
-
-		cout << "error, enter a value between 28 and 31 ";
-		exit(0);
-	}
-	//  i denne kolonen sjekker vi om hvor mange dager månden innholdt, om tallet er ugyldig stopper vi scriptet. 
-
-
-	else
-		
-		for (days2 = 28; days2 <= days; days2++)
-
+		if (days > 31 || days < 28)												//om brukeren skriver inn under 28 dager eller over 31 blir et exit script kjørt
 		{
 
-				cout << "enter the min temp for day: " << days2 << endl;
+			cout << "error, enter a value between 28 and 31 ";
+			exit(0);															/*viser brukeren en feil melding og exitter scriptet om brukeren skriver inn ugyldig verider
+																				stopper skriptet */
+		}
+
+
+		else                                                                    //om user taster inn gyldige verdier kj;res dette scriptet istedet. 
+
+			for (days2 = 1; days2 <= days; days2++)                            /*dette setter en loop som gj;res s[ mange ganger som brukeren tastet inn dager,
+																				infører også en annen varriabel for å holde styr på dager */
+			{
+
+				cout << "enter the min temp for day: " << days2 << endl;        //spørr om min temp 
 				cin >> minTemp;
 
-				if (minTemp < -70 || minTemp > 70)
+				if (minTemp < -70 || minTemp > 70)                              //setter opp intervall for inputten fra user, om uten for disse, kjøres if skriptet
 				{
 
 					cout << "error, enter a value between -70 and 70 " << endl;
-					exit(0);
+					exit(0);                                                    //om imput er utenfor intervallet exitter det scriptet. 
 				}
-				else
 
-					cout << "enter the max temp for day: " << days2 << endl;
-				cin >> maxTemp;
-				if (maxTemp > 70 || maxTemp < minTemp)
+				else                                                            //om user kommer så langt blir dette kj;rt istedet
+
+				cout << "enter the max temp for day: " << days2 << endl;       
+				cin >> maxTemp;                                                 //spørr etter en max temp fra user
+
+				if (maxTemp > 70 || maxTemp < minTemp)                          //om user ikke holder seg innenfor intervallet kj;res dette scriptet
 				{
 					cout << "error, enter a value between " << minTemp << " and 70\n ";
-					exit(0);
+					exit(0);                                                    //viser user en feilmeldingom han bommer på intervalletm  og exitter script etterp
 				}
-				else
+				 
+				else                                                            //om user kommer så langt blir dette kjørt istedet
 
-					cout << "enter the mm of rain for day: " << days2 << endl;
-				cin >> rainfall;
+				cout << "enter the mm of rain for day: " << days2 << endl;		
+				cin >> rainfall;												//viser user en feilmelding om han bommer på intervallet,  og exitter script etterpå
+
 
 				if (rainfall < 0 || rainfall > 200)
 				{
 					cout << "error, enter a value between 0 and 200 " << endl;
-					exit(0);
+					exit(0);													//viser user en feilmelding om han bommer på intervallet,  og exitter script etterpå
 				}
 
-		}
+				sumMinTemp = sumMinTemp + minTemp;								//for å addere sammen tallene for hver loop måtte jeg sette opp en alternativ int for legge sammen tallene
+				sumMaxTemp = sumMaxTemp + maxTemp;								// samme som over, bare for max temp
+				sumRainfall = sumRainfall + rainfall;							// se over
 
-			{
-				cout << "average min temp: " << minTemp << endl;
-				cout << "average max temp: " << maxTemp << endl;
-				cout << "average rainfall: " << rainfall << endl;
-				cout << "total rainfall: " << rainfall << endl;
+				
 			}
-			return 0;
+
+		
+
+		cout << "average min temp: " << sumMinTemp / days << endl;				// renger ut gjennsomsnitlig min temp. 
+		cout << "average max temp: " << sumMaxTemp / days << endl;				// regner ut gjennsnittlig max temp for alle dagene
+		cout << "average rainfall: " << sumRainfall / days << endl;				// regner ut gjennomsnittlig nedbørs menge over alle dagene user puttet inn
+		cout << "total rainfall: " << sumRainfall << endl;						// printer ut total nedbørs mengde
+
+		cout << "\nDo another? (y/n): ";										// spørr om user skal gjøre en til. 
+		cin >> n;
+		//int daysAverage = days;
+		sumMinTemp = 0, sumMaxTemp = 0, sumRainfall = 0;						// setter verdiene tilbake til 0 om bruker vil gjøre det på nytt.
+	}
+
+	while (n != 'n');															//while not n, kjør script på nytt
+	
+	
+	cout << " you didnt die of dysentery, gz! " << endl;						//orgeon trail refereanse. 
+	
+	return 0;																	//slutt på scriptet 
 
 }
 

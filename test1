@@ -1,85 +1,81 @@
 // oblig number 2
 // Benjamin skinstad 470918, også lagt ut på github  
 #include <iostream>
-using namespace std;		 //normal start av cpp script
+using namespace std;		//normal start av cpp script
 
-int Days;		//lager en int for dagene vi kommer til å bruke 
-int MaxTemp;		// lager en int for variablen max tempratur
-int Rainfall;		// lager en int for nedbørsmengden
-int Days2;		// lager en int for å kunne sette opp en "for" loop for dager
-int MinTemp;		// lager en int for minimums tempraturen 
+int Days;				//lager en int for dagene vi kommer til å bruke 
+int MaxTemp;			// lager en int for variablen max tempratur
+int Rainfall;			// lager en int for nedbørsmengden
+int Days2;				// lager en int for å kunne sette opp en "for" loop for dager
+int MinTemp;			// lager en int for minimums tempraturen 
 
-float SumMinTemp; /* jeg lager en float for summen av minimums tempraturen.
-				  dette holder styr på tempraturen underveis mellom alle loopene*/
-float SumMaxTemp;  // summer max temp
-float SumRainfall; // summer nedbør
+float SumMinTemp;  		// jeg lager en float for summen av minimums tempraturen.
+float SumMaxTemp;  		// summer max temp
+float SumRainfall; 		// summer nedbør
 
-char n; //setter opp chars for  nei
-char y; //setter opp chars for ja
-const int FMAXDAYS = 31;	//setter en const verdi for max antall dager
-const int FMINDAYS = 28;	//konstant min dager i månden
-const int FMINTEMP = -70;	//setter en konstant verdi for min temp 
-const int FMAXTEMP = 70;	//setter en konstant verdi for max temp
-const int FMAXRAINFALL = 200; //setter samme for maxreinfall
-const int FMINRAINFALL = 0;	   //setter samme for minreinfall
+char n;						 //setter opp chars for  nei
+char y;						 //setter opp chars for ja
+const int FMAXDAYS = 31;	 //setter en const verdi for max antall dager
+const int FMINDAYS = 28;	 //konstant min dager i månden
+const int FMINTEMP = -70;	 //setter en konstant verdi for min temp 
+const int FMAXTEMP = 70;	 //setter en konstant verdi for max temp
+const int FMAXRAINFALL = 200;//setter samme for maxreinfall
+const int FMINRAINFALL = 0;	 //setter samme for minreinfall
 
 int main()			//definerer main 
 {
-	{
+ {
 	do // bruker "do" loop sånn at jeg kan kjøre den på nytt igjen om user vill det. 
 
 	{
-		SumMinTemp = 0, SumMaxTemp = 0, SumRainfall = 0; //  nullstiller				
+		SumMinTemp = 0, SumMaxTemp = 0, SumRainfall = 0; //nullstiller				
 		cout << "enter the number of days in your month: " << endl;
 		cin >> Days;	// ber brukeren skrive inn antall dager i månden deres.
-		
-	}   while (Days > FMAXDAYS || Days < FMINDAYS); //om brukeren skriver inn under 28 dager eller over 31 
+
+	} while (Days > FMAXDAYS || Days < FMINDAYS); //om utenfor intervallet, repeteres loopen
 
 
-	for (Days2 = 1; Days2 <= Days; Days2++)  /*dette setter en loop som gj;res så mange ganger som brukeren tastet inn dager,
-											 infører også en annen varriabel for å holde styr på dager */
-		{
+	for (Days2 = 1; Days2 <= Days; Days2++)  // setter en loop som kjøres for antall dager i månden
+						                     // infører også en annen varriabel for å holde styr på dager */
+	{
 
-				
-			
-			do{
-				cout << "enter the min temp for day: " << Days2 << endl;   //spørr om min temp 
-				cin >> MinTemp;
-				} while (MinTemp < FMINTEMP || MinTemp > FMAXTEMP);    //setter opp intervall for inputten fra user, om uten for disse, kjøres if skriptet
+		do{
+			cout << "enter the min temp for day: " << Days2 << endl;
+			cin >> MinTemp;						//spørr om min temp
+		} while (MinTemp < FMINTEMP || MinTemp > FMAXTEMP); //om utenfor intervallet, repeteres loopen
 
 
-			do{
-				cout << "enter the max temp for day: " << Days2 << endl;
-					cin >> MaxTemp;               //spørr etter en max temp fra user
-				} while (MaxTemp > FMAXTEMP || MaxTemp < MinTemp); //om user ikke holder seg innenfor intervallet kj;res dette scriptet
+		do{
+			cout << "enter the max temp for day: " << Days2 << endl;
+			cin >> MaxTemp;               //spørr etter en max temp fra user
+		} while (MaxTemp > FMAXTEMP || MaxTemp < MinTemp); //om utenfor intervallet, repeteres loopen
 
-			do{
-				cout << "enter the mm of rain for day: " << Days2 << endl;
-				cin >> Rainfall;			//viser user en feilmelding om han bommer på intervallet,  og exitter script etterpå
-				} while (Rainfall < FMINRAINFALL || Rainfall > FMAXRAINFALL);
-
-
-				SumMinTemp = SumMinTemp + MinTemp;		//for å addere sammen tallene for hver loop måtte jeg sette opp en alternativ int for legge sammen tallene
-				SumMaxTemp = SumMaxTemp + MaxTemp;		// samme som over, bare for max temp
-				SumRainfall = SumRainfall + Rainfall;	// se over
+		do{
+			cout << "enter the mm of rain for day: " << Days2 << endl;
+			cin >> Rainfall;			//spørr etter nedbørs mengde 
+		} while (Rainfall < FMINRAINFALL || Rainfall > FMAXRAINFALL); 
+		// utenfor intervallet, repeteres loopen
 
 
-			}
+		SumMinTemp = SumMinTemp + MinTemp;		//legger sammen 
+		SumMaxTemp = SumMaxTemp + MaxTemp;		// samme som over, bare for max temp
+		SumRainfall = SumRainfall + Rainfall;	// se over
+
+	}
+
+	cout << "average min temp: " << SumMinTemp / Days << "c" << endl;	// renger ut gjennsomsnitlig min temp. 
+	cout << "average max temp: " << SumMaxTemp / Days << "c" << endl;	// regner ut gjennsnittlig max temp 
+	cout << "average Rainfall: " << SumRainfall / Days << "mm" << endl;	// regner ut gjennsomnitt
+	cout << "total Rainfall: " << SumRainfall << "mm" << endl;		// printer ut total nedbørs mengde
+
+	cout << "\nDo another? (y/n): ";									// spørr om user skal gjøre en til. 
+	cin >> n;
+ }  while (n != 'n');													//while not n, kjør script på nytt
 
 
+	cout << " you didnt die of dysentery, gz! " << endl;					//orgeon trail refereanse. 
 
-		cout << "average min temp: " << SumMinTemp / Days << "c" << endl;		// renger ut gjennsomsnitlig min temp. 
-		cout << "average max temp: " << SumMaxTemp / Days << "c" << endl;		// regner ut gjennsnittlig max temp for alle dagene
-		cout << "average Rainfall: " << SumRainfall / Days << "mm" << endl;		// regner ut gjennomsnittlig nedbørs menge over alle dagene user puttet inn
-		cout << "total Rainfall: " << SumRainfall << "mm" << endl;				// printer ut total nedbørs mengde
-
-		cout << "\nDo another? (y/n): ";								// spørr om user skal gjøre en til. 
-		cin >> n;
-	}   while (n != 'n');		//while not n, kjør script på nytt
-
-
-	cout << " you didnt die of dysentery, gz! " << endl;	//orgeon trail refereanse. 
-
-	return 0;				//slutt på scriptet 
+	return 0;																//slutt på scriptet 
 }
+
 

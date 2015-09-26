@@ -5,13 +5,6 @@ using namespace std; //standard start
 struct brok            //struct nor brøk1
 {
 	int teller;
-	int nevner;#include <iostream>
-#include <iomanip>
-using namespace std; //standard start
-
-struct brok            //struct nor brøk1
-{
-	int teller;
 	int nevner;
 };
 
@@ -58,19 +51,19 @@ brok3.teller, brok3.nevner;						//definerer structs
 	cout << "2= 1 og 3?\n" << setw(5) << "3= 2 og 3?\n" << "press Q for og avslutte\n";
 	cin >> valg1;
 	do{
-		if (valg1 == 1)
+		if (valg1 == '1')
 		{
 			temp1 = brok1.teller, brok1.nevner;
 			temp2 = brok2.teller, brok2.nevner;
 			cout << temp1 << temp2;
 		}
 
-		else if (valg1 == 2)
+		else if (valg1 == '2')
 		{
 			cout << valg1;
 		}
 
-		else if (valg1 == 3)
+		else if (valg1 == '3')
 		{
 			cout << "c";
 		}
@@ -79,10 +72,10 @@ brok3.teller, brok3.nevner;						//definerer structs
 		{
 			cout << "du avsluttet nå programmet" << endl;
 		}
-		cout << "\nDo another? (y/n): ";
-		cin >> n;
+
+		
+		}
 	}
-	}while (n != 'n');							// om ikke N, repeter. 
 
 			
 
@@ -95,81 +88,8 @@ brok3.teller, brok3.nevner;						//definerer structs
 	cout << brok2.nevner << brok2.nevner <<  endl; 
 	cout << brok3.nevner << brok3.nevner << endl; 
 	
+	while (n != 'n');							// om ikke N, repeter.
+	cout << "\nDo another? (y/n): ";
+	cin >> n;
 	}
 	*/
-};
-
-brok brok1, brok2, brok3;
-
-
-
-
-
-int main()
-{
-char n;					//definerer loop av script
-char q; 
-char valg1; 
-int antall_ganger;		// setter en int for antall loops
-
-
-brok1.teller, brok1.nevner; 
-brok2.teller, brok2.nevner ;
-brok3.teller, brok3.nevner	; 
-
-	do
-	{
-		cout << "nevner til brøk 1: "; 
-		cin >> brok1.teller;
-		cout << "nevner til brøk 1: ";
-		cin >> brok1.nevner; 
-		
-		cout << "nevner til brøk 2: ";
-		cin >> brok2.teller;
-		cout << "nevner til brøk 2: ";
-		cin >> brok2.nevner;
-
-		cout << "nevner til brøk 3: ";
-		cin >> brok3.teller;
-		cout << "nevner til brøk 3: \n";
-		cin >> brok3.nevner;
-		
-		cout << " ";
-		cout << endl << "vill du renge med brøk: \n" << setw(5) << "1= 1 og 2?\n" << setw(5) << "2= 1 og 3?\n" << setw(5) << "3= 2 og 3?\n" << "press Q for og avslutte\n"; 
-		cin >> valg1; 
-
-		if (valg1 == 1)
-		{
-			cout << "a";
-		}
-
-		else if (valg1 == 2)
-		{
-			cout << "b";
-		}
-
-		else if (valg1 == 3)
-		{
-			cout << "c";
-		}
-
-		else if (valg1 == q)
-		{
-			cout << "du avslutte nå programmet" << endl;
-			break; 
-		}
-
-			/*for (antall_ganger = 1; antall_ganger <= 3; antall_ganger++)			// kjører scriptet 3 ganger, en gang for hver brøk
-		{ 
-		cout << brok1.nevner << brok1.nevner <<  endl;
-		cout << brok2.nevner << brok2.nevner <<  endl; 
-		cout << brok3.nevner << brok3.nevner << endl; 
-		
-		}
-		*/
-		cout << "\nDo another? (y/n): ";
-		cin >> n;
-	} while (n != 'n');							// om ikke N, repeter. 
-
-	return 0;
-}

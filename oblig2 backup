@@ -1,0 +1,133 @@
+#include <iostream>
+#include <iomanip>	 //for å få menyene til å se bedre ut
+using namespace std; //standard start
+
+struct brok          //struct nor brøk1
+{
+	int teller;
+	int nevner;
+};				//structen jeg skal bruke i hele structen når det kommer til brøk.
+
+brok brok1, brok2, brok3,temp, temp1, temp2; // definerer alle structsa jeg skal bruke
+
+
+
+
+int main()
+{									//definerer loop av script
+	char n;							//for nei
+	char q;							//for stop
+	char valg1;						//char for det flrste valget
+	char valg2;						//char for the adnre valget
+	int antall_ganger;		// setter en int for antall loops
+	int test1;				// en test int
+
+
+	brok1.teller, brok1.nevner;				
+	brok2.teller, brok2.nevner;
+	brok3.teller, brok3.nevner;				//definerer strct variablene jeg skal bruke
+	temp.teller = 0;
+	temp.nevner = 0;
+
+	do										//en do loop så jeg kan repetere den
+	{
+
+		cout << "nevner til brøk 1: ";
+		cin >> brok1.teller;
+		cout << "nevner til brøk 1: ";
+		cin >> brok1.nevner;
+
+		cout << "nevner til brøk 2: ";
+		cin >> brok2.teller;
+		cout << "nevner til brøk 2: ";
+		cin >> brok2.nevner;
+
+		cout << "nevner til brøk 3: ";
+		cin >> brok3.teller;
+		cout << "nevner til brøk 3: ";
+		cin >> brok3.nevner;
+		
+		//i de 3 kolonnene over spørr jeg bruker om teller og nevner i 3 brøker,. det jeg setter inn via cin er definert i structs. 
+
+		cout << " ";
+		cout << endl << "vill du renge med brøk: \n" << setw(5) << "1= 1 og 2?\n" << setw(5) << "2= 1 og 3?\n" << setw(5) << "3= 2 og 3?\n" << "press Q for og avslutte\n";
+		cin >> valg1; // setter opp en meny med flere valg alternativer, etter brukeren har tastet inn noe, velger scripet riktig if alternativ.
+
+
+		if (valg1 == '1')
+		{
+			temp1 = brok1; 
+			temp2 = brok2; 
+		}		// om brukeren skriver "1" i menyvalget settes temp 1 lik brok 1, og temp2 lik brok 2. 
+
+		else if (valg1 == '2')
+		{
+			temp1 = brok1;
+			temp2 = brok3;
+		}// om brukeren skriver "1" i menyvalget settes temp 2 lik brok 1, og temp2 lik brok 3. 
+
+		else if (valg1 == '3')
+		{
+			temp1 = brok2;
+			temp2 = brok3;
+		}// om brukeren skriver "3" i menyvalget settes temp 1 lik brok 2, og temp2 lik brok 3. 
+
+		else if (valg1 == 'q')
+		{
+			cout << "du avsluttet nå programmet" << endl;
+			break;
+		}// om brukeren skriver "q" i menyvalget avsluttes scriptet. 
+
+		do
+		{
+			
+			cout << "hvilke regneopprasjoner vill du utføre?: +,-,*,/ \n"; 
+			cin >> valg2; 
+			// ny meny for bruker. utifra valget til brukeren hopper scriptet til riktig if/else if loop 
+			
+			if (valg2 == '+')
+			{
+				temp.teller = (temp1.teller * temp2.nevner) + (temp1.nevner*temp2.teller);
+				temp.nevner = (temp1.nevner*temp2.nevner);
+				cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner << "=" << temp.teller << "/" << temp.nevner;
+				//om valg2 er + setter temp teller og nevner som temp1 og 2, så skrives svaret ut. 
+			}
+
+			else if (valg2 == '-')
+			{
+				temp.teller = (temp1.teller*temp2.nevner) - (temp1.nevner*temp2.teller); 
+				temp.nevner= (temp1.nevner*temp2.nevner);
+				cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner << "=" << temp.teller << "/" << temp.nevner;
+				//om valg2 er - setter temp teller og nevner som temp1 og 2, så skrives svaret ut. 
+
+			}
+			else if (valg2 == '*')
+			{
+				temp.teller = (temp1.teller*temp2.teller);
+				temp.nevner = (temp1.nevner*temp2.nevner);
+				cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner << "=" << temp.teller << "/" << temp.nevner;
+				//om valg2 er * setter temp teller og nevner som temp1 og 2, så skrives svaret ut. 
+
+			}
+			else if (valg2 == '/')
+			{
+				temp.teller = (temp1.teller*temp2.nevner);
+				temp.nevner=(temp1.nevner*temp2.teller);
+				cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner << "=" << temp.teller << "/" << temp.nevner;
+				//om valg2 er / setter temp teller og nevner som temp1 og 2, så skrives svaret ut. 
+
+			}
+
+
+			cout << "\ngjøre en annen regenopprasjon? (y/n): ";
+			cin >> n;
+		} while (n != 'n'); // kjører do loopen på nytt, man kan da gjøre en ny regneopprasjon med den samme brøken
+
+		cout << "\nStarte på nytt? (y/n): ";
+		cin >> n;
+	} while (n != 'n');							// om ikke N, repeteres alt, for resettes
+
+	
+
+	return 0; // slutt av scriptet
+}

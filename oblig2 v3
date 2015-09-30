@@ -1,24 +1,24 @@
 //oblig 3
 // Benjamin Skinstad 470918
 #include <iostream>
-using namespace std; //standard start
+using namespace std;		//standard start
 
-struct brok //struct for brøk1
+struct brok					//struct for brøk1
 {
 	int teller;
 	int nevner;
-}; //structen jeg skal bruke i hele structen når det kommer til brøk.
+};							//structen jeg skal bruke i hele structen når det kommer til brøk.
 
 brok brok1, brok2, brok3, temp, temp1, temp2; // definerer alle structsa jeg skal bruke
 
-int main()
-{			//definerer loop av script
-	char q; //for stop
-	char valg1; //char for det første valget
-	char valg2; //char for the adnre valget
+int main()	
+{							//definerer loop av script
+	char q;					 //for stop
+	char valg1;				//char for det første valget
+	char valg2;				//char for the adnre valget
 
 	temp.teller = 0;
-	temp.nevner = 0; //resetter temp's når scriptet kjøres på nytt
+	temp.nevner = 0;		 //resetter temp's når scriptet kjøres på nytt
 
 	cout << "nevner til brok 1: ";
 	cin >> brok1.teller;
@@ -35,8 +35,8 @@ int main()
 	cout << "nevner til brok 3: ";
 	cin >> brok3.nevner;
 
-	//i de 3 kolonnene over spørr jeg bruker om teller og nevner i 3 broker,. det jeg setter inn via cin
-	//er definert i structs.
+			//i de 3 kolonnene over spørr jeg bruker om teller og nevner i 3 broker,. 
+			//det jeg setter inn via ciner definert i structs.
 
 	do
 	{
@@ -47,29 +47,28 @@ int main()
 	} while (valg1 != '1' && valg1 != '2' && valg1 != '3' && valg1 != 'q');
 
 
-	// setter opp en meny med flere valg alternativer, etter brukeren har tastet inn noe,
-	//velger scripet riktig switch alternativ. om input input er noe annet en q eller 1,2,3,
-	//repeteres do loppen.
+			// setter opp en meny med flere valg alternativer, etter brukeren har tastet inn noe,
+			//velger scripet riktig switch alternativ. om input input er noe annet en q eller 1,2,3,
+			//repeteres do loppen.
 	
-
-	switch (valg1)
-	{
-	case '1': temp1 = brok1, temp2 = brok2; break;
-	case '2': temp1 = brok1, temp2 = brok3; break;
-	case '3': temp1 = brok2, temp2 = brok3; break;
-	case 'q': break; 
-	default: break;
-		
-	}
-
-	/* i denne switchen sjekkes det for input ang hvem brok som skal brukes, etter input setttes temp1/2
-	etter input fra bruker,så breakes det ut, default break fanger opp alt annet. om q breakes det ut og scripet
-	avslutter*/
+	while (valg1 != 'q')				//repeterer med mindre Q er svaret. 
 	
-	if (valg1 != 'q') //if noe annet en q, spill av denne delen av sriptet
 	{
-		do
+		switch (valg1)
 		{
+		case '1': temp1 = brok1, temp2 = brok2; break;
+		case '2': temp1 = brok1, temp2 = brok3; break;
+		case '3': temp1 = brok2, temp2 = brok3; break;
+
+
+		}
+
+		/* i denne switchen sjekkes det for input ang hvem brok som skal brukes, etter input setttes temp1/2
+		etter input fra bruker,så breakes det ut, default break fanger opp alt annet. om q breakes det ut
+		og scripet avslutter*/
+
+
+		do
 			{
 				cout << "hvilke regneopprasjoner vill du utføre?: +,-,*,/ \n";
 				cin >> valg2;
@@ -82,37 +81,41 @@ int main()
 			case '+':temp.teller = (temp1.teller * temp2.nevner) + (temp1.nevner*temp2.teller);
 				temp.nevner = (temp1.nevner*temp2.nevner); break;
 
-				//om valg2 er + blir temp teller og nevner som temp1 og 2, så skrives svaret ut, så breakes det
+				//om valg2 er + blir temp teller og nevner som temp1 og 2, så skrives svaret ut, 
+				//så breakes det
 
 			case '-': temp.teller = (temp1.teller*temp2.nevner) - (temp1.nevner*temp2.teller);
 				temp.nevner = (temp1.nevner*temp2.nevner); break;
 
-				//om valg2 er - setter temp teller og nevner som temp1 og 2, så skrives svaret ut.
+				//om valg2 er - setter temp teller og nevner som temp1 og 2, 
+				//så skrives svaret ut.
 
 			case '*':temp.teller = (temp1.teller*temp2.teller);
 				temp.nevner = (temp1.nevner*temp2.nevner); break;
 
-				//om valg2 er * setter temp teller og nevner som temp1 og 2, så skrives svaret ut.
+				//om valg2 er * setter temp teller og nevner som temp1 og 2, 
+				//så skrives svaret ut.
 
 			case '/':temp.teller = (temp1.teller*temp2.nevner);
 				temp.nevner = (temp1.nevner*temp2.teller); break;
 
-				//om valg2 er / setter temp teller og nevner som temp1 og 2, så skrives svaret ut.
+				//om valg2 er / setter temp teller og nevner som temp1 og 2, 
+				//så skrives svaret ut.
 
-			default: break;
-				//om noe annet tastes en valgalternativer, breakes det ut.
 			}
 			cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner;
 			cout << "=" << temp.teller << "/" << temp.nevner;
 
-			cout << endl << "vill du renge med brok: \n" << "1= 1 og 2?\n" << "2= 1 og 3?\n" << "3= 2 og 3?\n";
+			cout << endl << "vill du renge med brok: \n" << "1= 1 og 2?\n" << "2= 1 og 3?\n";
+			cout << "3= 2 og 3?\n";
 			cout << "press Q for og avslutte\n";
 			cin >> valg1;
 			// her skrives svaret ut, ting repeteres medmindre q er svaret
 
-		} while (valg1 != 'q'); //repeterer med mindre Q er svaret. 
-	}
-	return 0; // slutt av scriptet
+		}
+
+	
+	return 0;								//slutt av scriptet
 }
 /*A programmer walks into a bar and asks the bartender for 1.00000000000003123939 root beers.
 Bartender says, "I'll have to charge you extra, that's a root beer float." Programmer says,

@@ -1,4 +1,4 @@
-/*
+
 //  Fil:  FRODEH \ CPP \ OBIGER \ OBLIG_4.TPL
 //
 //  Skjellettet/template for obligatorisk oppgave nr.4 i  C++ -programmering.
@@ -108,39 +108,73 @@ int Tid::dagnummer(int da, int ma, int aa)  {
 
 
 Tid::Tid()                       //  2x constructorer, som setter verdier:
-{   /*  Lag innmaten  */
+{
+	dag = 1; maaned = 1; aar = 2000; time = 0; minutt = 0; sekund = 0;
 }
 
 Tid::Tid(int t, int m, int s)
-{   /*  Lag innmaten  */
+{
+	dag = 1; maaned = 1; aar = 2000; t = time; m = minutt; s = sekund;
 }
 
 void Tid::skrivDato()            //  På formen:  dd/mm-aaaa
-{   /*  Lag innmaten  */
+{
+	dag = les(1, 31); maaned = les(1, 12); aar = les(1600, 2100);
 }
 
 void Tid::skrivTidspunkt()       //  På formen:  tt:mm:ss
-{   /*  Lag innmaten  */
+{
+	cout << time << ":" << minutt << ":" << sekund << endl;
+	if (time < 10 )
+	{
+		cout << "0";
+	}
+	if (minutt < 10)
+	{
+		cout << "0";
+	}
+	if (sekund < 10)
+	{
+		cout << "0";
+	}
 }
 
 void Tid::skrivTid()             //  På formen:  dd/mm-aaaa   tt:mm:ss
-{   /*  Lag innmaten  */
+{
+	cout << time << ":" << minutt << ":" << sekund << endl;
+	cout << dag << "/" << maaned << "-" << aar << endl;
 }
 
 void Tid::lesDato()              //  Leser inn ny dato:
-{   /*  Lag innmaten  */
+{
+	int dagnr; 
+	do
+	{
+		cout << dag << "/" << maaned << "-" << aar << endl;
+		dag = les(1, 31); maaned = les(1, 12); aar = (1600, 2100);
+		dagnr = dagnummer( dag, maaned, aar); 
+	} while (dagnr == 0);
 }
 
 void Tid::lesTidspunkt()         //  Leser inn nytt tidspunkt:
-{   /*  Lag innmaten  */
+{
+	cout << time << ":" << minutt << ":" << sekund << endl;
+	time = les(0, 23); minutt = les(0, 59); sekund = les(0, 59);
 }
 
 void Tid::lesTid()               //  Leser inn ny dato og nytt tidspunkt:
-{   /*  Lag innmaten  */
+{
+	cout << time << ":" << minutt << ":" << sekund << endl; 
+	time = les(0, 23); minutt = les(0, 59); sekund = les(0, 59);
+	dag = les(1, 31); maaned = les(1, 12); aar = (1600, 2100);
+
+
 }
 
 bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
-{   /*  Lag innmaten  */
+{
+	if ()
+	return ()
 }
 
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:

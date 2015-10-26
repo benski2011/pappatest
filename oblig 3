@@ -38,6 +38,8 @@ public:
 void skrivMeny();
 char lesKommando();
 int  les(const int min, const int max);
+void skrivDato(); 
+void skrivTid();
 
 
 
@@ -46,17 +48,26 @@ int main()  {
 	Tid tid1, tid2, tid3;  //  Tre tid-objekter.
 
 	char valg;             //  Brukerens valg/ønske/kommando.
+	char valg2;
 	int nr;                //  Hvilken av tid1 og tid2 det skal endres på.
+	
 
 	skrivMeny();           //  Skriver/viser bruker-menyen.
 	valg = lesKommando();  //  Leser brukerens valg/ønske/kommando.
 
 	while (valg != 'Q'  &&  valg != 'A')  {  //  Så lenge ikke avslutte:
 		switch (valg)  {
-		case 'S':    /*  Lag innmaten   */   break;
+		case 'S':  skrivTid();     break;
 
-		case 'D':    /*  Lag innmaten   */   break;
-
+		case 'D':    cout << "skal det endres på 1) Tid1 eller 2) Tid2?\n";
+			if (valg2 = '1')
+			{
+				cin >> tid1;
+			}
+			if (valg2 = '2')
+			{
+				cin >> tid2; 
+			}
 		case 'P':    /*  Lag innmaten   */   break;
 
 		case 'T':    /*  Lag innmaten   */   break;
@@ -173,8 +184,11 @@ void Tid::lesTid()               //  Leser inn ny dato og nytt tidspunkt:
 
 bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 {
-	if ()
-	return ()
+	if (Tid.tid1 = Tid.tid2)
+	{return true;}
+	
+	else 
+	{return false; }
 }
 
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:

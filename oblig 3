@@ -259,4 +259,4 @@ int les(const int min, const int max)  {
 		cin >> tall;
 	}
 	return tall;                  //  Returnerer akseptert (gyldig) tall
-}
+} 

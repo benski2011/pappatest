@@ -41,7 +41,10 @@ int  les(const int min, const int max);
 void skrivDato(); 
 void skrivTid();
 void lesDato(); 
-
+void lesTidspunkt();
+void skrivTid();
+void tidspunktForskjell();
+void datoForskjell(); 
 
 
 //  ********************  H O V E D P R O G R A M M E T:  *******************
@@ -65,19 +68,40 @@ int main()  {
 			valg2 = les(1, 2);
 			if (valg2 == '1')
 			{
-				tid1.lesDato(); 
+				lesDato();		
 			}
 			if (valg2 == '2')
 			{
-				tid2.lesDato;
+				lesDato;
+			}break;
+
+		case 'P':    cout << "skal det endres på 1) Tid1 eller 2) Tid2?\n";
+			cin >> valg2;
+			valg2 = les(1, 2);   
+			if (valg2 == '1')
+			{
+				lesTidspunkt();
 			}
-		case 'P':    /*  Lag innmaten   */   break;
+			if (valg2 == '2')
+			{
+				lesTidspunkt();
+			}break;
 
-		case 'T':    /*  Lag innmaten   */   break;
+		case 'T':    cout << "skal det endres på 1) Tid1 eller 2) Tid2?\n";
+			cin >> valg2;
+			valg2 = les(1, 2);		
+			if (valg2 == '1')
+			{
+				skrivTid();
+			}
+			if (valg2 == '2')
+			{
+				skrivTid();
+			}break;
 
-		case 'X':    /*  Lag innmaten   */   break;
+		case 'X':   tidspunktForskjell();   break;
 
-		case 'Y':    /*  Lag innmaten   */   break;
+		case 'Y':    datoForskjell();   break;
 
 		default:   skrivMeny();   break;
 		}
@@ -187,7 +211,7 @@ void Tid::lesTid()               //  Leser inn ny dato og nytt tidspunkt:
 
 bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 {
-	if (Tid.tid1 = Tid.tid2)
+	if ()
 	{return true;}
 	
 	else 

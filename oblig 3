@@ -238,8 +238,27 @@ bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 }
 
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:
-{ if (Tid::likDato==0)
-
+{
+	if (time<tt.time) {
+		return -1;
+	}
+	else if (time>tt.time) {
+		return 1;
+	}
+	else if (minutt<tt.minutt) {
+		return -1;
+	}
+	else if (minutt>tt.minutt) {
+		return 1;
+	}
+	else if (sekund< tt.sekund)
+	{
+		return -1;
+	}
+	else if (sekund > tt.sekund)
+	{
+		return 1;
+	}
 }
 
 int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:

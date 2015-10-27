@@ -211,11 +211,9 @@ void Tid::lesTid()               //  Leser inn ny dato og nytt tidspunkt:
 
 bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 {
-	Tid tid1, tid2;
-	if (tid1.dagnummer == tid2.dagnummer)
-		return true; 
-	else
-		return false; //sjekker om datoen for tid1/2 er lik hverandre
+	
+	{ return (aar == t.aar  &&  maaned == t.maaned && dag==t.dag); }
+	//sjekker om datoen for tid1/2 er lik hverandre
 }
 
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:
@@ -259,4 +257,4 @@ int les(const int min, const int max)  {
 		cin >> tall;
 	}
 	return tall;                  //  Returnerer akseptert (gyldig) tall
-} 
+}

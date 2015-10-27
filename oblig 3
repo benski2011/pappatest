@@ -4,7 +4,7 @@
 //  Skjellettet/template for obligatorisk oppgave nr.4 i  C++ -programmering.
 //  Omhandler/"dekker" kap.2-6 i læreboka.
 
-
+//husk å spørr på mandagen om hvordan parameter overføringen skjer i bool tid::likdato
 //  INCLUDE:
 #include <iostream>          //  cout, cin
 #include <cctype>            //  toupper
@@ -45,16 +45,17 @@ void lesTidspunkt();
 void skrivTid();
 void tidspunktForskjell();
 void datoForskjell(); 
+bool likDato(const Tid t);
 
 
 //  ********************  H O V E D P R O G R A M M E T:  *******************
 int main()  {
 	Tid tid1, tid2, tid3;  //  Tre tid-objekter.
-
 	char valg;             //  Brukerens valg/ønske/kommando.
 	char valg2;
 	int nr;                //  Hvilken av tid1 og tid2 det skal endres på.
-	
+	Tid(); 
+
 
 	skrivMeny();           //  Skriver/viser bruker-menyen.
 	valg = lesKommando();  //  Leser brukerens valg/ønske/kommando.
@@ -99,7 +100,13 @@ int main()  {
 				skrivTid();
 			}break;
 
-		case 'X':   tidspunktForskjell();   break;
+		case 'X':   if (likDato(true))
+			cout << "datone er like" << endl; 
+					else
+
+			
+			break;
+
 
 		case 'Y':    datoForskjell();   break;
 
@@ -148,6 +155,8 @@ int Tid::dagnummer(int da, int ma, int aa)  {
 Tid::Tid()                       //  2x constructorer, som setter verdier:
 {
 	dag = 1; maaned = 1; aar = 2000; time = 0; minutt = 0; sekund = 0;
+	dag = 1; maaned = 1; aar = 2000; time = 0; minutt = 0; sekund = 0;
+
 }
 
 Tid::Tid(int t, int m, int s)
@@ -218,11 +227,14 @@ bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:
 {
-	
+	if (tt.likDato = true)
+	{return (time - tt.time && minutt - tt.minutt && sekund - tt.sekund);}
+
 }
 
 int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:
 {  
+	dagnummer
 }
 
 

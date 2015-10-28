@@ -104,7 +104,10 @@ int main()  {
 					break;
 
 
-		case 'Y':    tid1.datoForskjell(tid2);   break;
+		case 'Y':  int tempdag;
+			tempdag=tid1.datoForskjell(tid2);
+			cout << tempdag;
+			break;
 
 		default:   skrivMeny();   break;
 		}
@@ -115,19 +118,19 @@ int main()  {
 }
 
 
-//  *******************  DEFINISJON AV KLASSE-FUNKSJONER:  ********************
+	//  *******************  DEFINISJON AV KLASSE-FUNKSJONER:  ********************
 
-//  IDENTISK TIL OPPG_20:
-bool Tid::skuddaar(int aa)  {    //  Sjekker om et visst år er skuddår:
+	//  IDENTISK TIL OPPG_20:
+	bool Tid::skuddaar(int aa)  {    //  Sjekker om et visst år er skuddår:
 	if ((aa % 400 == 0) || ((aa % 4 == 0) && (aa % 100) != 0))
 		return true;                  //  Skuddår dersom: (delelig med 400)
 	else                             //    ELLER (delelig med 4 OG ikke med 100)
 		return false;
 }
-//  IDENTISK TIL OPPG_20:
-//  Ut fra datoens input, så returneres (om mulig)
-//    denne datoens dagnummer i året, ellers returneres 0.
-int Tid::dagnummer(int da, int ma, int aa)  {
+	//  IDENTISK TIL OPPG_20:
+	//  Ut fra datoens input, så returneres (om mulig)
+	//    denne datoens dagnummer i året, ellers returneres 0.
+	int Tid::dagnummer(int da, int ma, int aa)  {
 	//  Setter opp antall dager i månedene.
 	//   Verdien for februar settes senere.
 	int dagerPrMaaned[12] = { 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -165,11 +168,13 @@ void Tid::skrivDato()            //  På formen:  dd/mm-aaaa
 	if (dag < 10)
 	{
 		cout << "0";
-	}cout << dag << "/";
+	}
+	cout << dag << "/";
 	if (maaned < 10)
 	{
 		cout << "0";
-	}cout << maaned << "-";
+	}
+	cout << maaned << "-";
 	cout <<  aar << endl;
 
 }
@@ -230,7 +235,9 @@ void Tid::lesTid()               //  Leser inn ny dato og nytt tidspunkt:
 bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 {
 	
-	{ return (aar == t.aar  &&  maaned == t.maaned && dag==t.dag); }
+	{
+		return (aar == t.aar  &&  maaned == t.maaned && dag==t.dag); 
+	}
 	//sjekker om datoen for tid1/2 er lik hverandre
 }
 
@@ -262,14 +269,16 @@ int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:
 		int ikkeSkudd = 0, Skudd = 0;
 
 
-		if (aar < tt.aar) {
+		if (aar < tt.aar)
+		{
 			a = aar;
 			b = tt.aar;
 			dagnummer1 = dagnummer(dag, maaned, aar);
 			dagnummer2 = dagnummer(tt.dag, tt.maaned, tt.aar);
 		}
 
-		else {
+		else 
+		{
 			a = tt.aar;
 			b = aar;
 			dagnummer1 = dagnummer(tt.dag, tt.maaned, tt.aar);
@@ -277,11 +286,14 @@ int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:
 		}
 
 
-		for (int i = a; i < b; i++) {
-			if (skuddaar(i) == true) {
+		for (int i = a; i < b; i++)
+		{
+			if (skuddaar(i) == true) 
+			{
 				Skudd++;
 			}
-			else {
+			else 
+			{
 				ikkeSkudd++;
 			}
 		}

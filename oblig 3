@@ -237,17 +237,41 @@ bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:
 {
 	Tid temp1;
-	temp1.time = abs(time - tt.time);
-	temp1.minutt = abs(minutt - tt.minutt);
-	temp1.sekund = abs(sekund - tt.sekund);
-	return (temp1);
-	
+	/*
+	const int HRS_PER_DAY = 24;
+	const int MIN_PER_HR = 60;
+	const int SEC_PER_MIN = 60;
+	*/
 
-	
+	int a = 0;
+	int b = 0;
+	int c = 0;
+	int d = 0;
+	a = time * 3600;
+	b = tt.time * 3600;
+	a = a + (minutt * 60);
+	b = b + (tt.minutt * 60);
+	a = a + sekund;
+	b = b + tt.sekund;
+	if (a < b)
+	{
+		c = b - a;
+	}
+	else
+	{
+		c = a - b;
+	}
+	d = c / 3600;
+	a = c % 3600;
+	b = a / 60;
+	a = a % 60;
+	temp1.time = d, temp1.minutt = b, temp1.sekund = a;
+	return temp1; 
 }
 
 int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:
 {  
+
 	return 0; 
 }
 

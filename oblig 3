@@ -237,42 +237,59 @@ bool Tid::likDato(const Tid t)   //  Er to datoer like eller ei:
 Tid Tid::tidspunktForskjell(const Tid tt)  //  Forskjellen mellom to tidspunkt:
 {
 	Tid temp1;
-	/*
-	const int HRS_PER_DAY = 24;
-	const int MIN_PER_HR = 60;
-	const int SEC_PER_MIN = 60;
-	*/
 
-	int a = 0;
-	int b = 0;
-	int c = 0;
-	int d = 0;
-	a = time * 3600;
-	b = tt.time * 3600;
-	a = a + (minutt * 60);
-	b = b + (tt.minutt * 60);
-	a = a + sekund;
-	b = b + tt.sekund;
-	if (a < b)
-	{
-		c = b - a;
-	}
-	else
-	{
-		c = a - b;
-	}
-	d = c / 3600;
+
+	int a,b,c = 0;
+	a = 3600 * time + 60 * minutt;
+	b = 3600 * tt.time + 60 * tt.minutt;
+	c = abs(a - b);
+
+	temp1.time = c / 3600;
 	a = c % 3600;
-	b = a / 60;
+	temp1.minutt = a / 60;
 	a = a % 60;
-	temp1.time = d, temp1.minutt = b, temp1.sekund = a;
+	temp1.sekund = a;
+
 	return temp1; 
 }
 
 int Tid::datoForskjell(const Tid tt)    //  Antall dager mellom to datoer:
 {  
 
-	return 0; 
+	{
+		int a, b, c;
+		int dagnummer1, dagnummer2;
+		int ikkeSkudd = 0, Skudd = 0;
+
+
+		if (aar < tt.aar) {
+			a = aar;
+			b = tt.aar;
+			dagnummer1 = dagnummer(dag, maaned, aar);
+			dagnummer2 = dagnummer(tt.dag, tt.maaned, tt.aar);
+		}
+
+		else {
+			a = tt.aar;
+			b = aar;
+			dagnummer1 = dagnummer(tt.dag, tt.maaned, tt.aar);
+			dagnummer2 = dagnummer(dag, maaned, aar);
+		}
+
+
+		for (int i = a; i < b; i++) {
+			if (skuddaar(i) == true) {
+				Skudd++;
+			}
+			else {
+				ikkeSkudd++;
+			}
+		}
+
+		if (aar != tt.aar) c = Skudd * 366 + ikkeSkudd * 365 + (dagnummer2 - dagnummer1);
+		else c = abs(dagnummer1 - dagnummer2);
+		return c;
+	}
 }
 
 

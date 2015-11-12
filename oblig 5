@@ -1,0 +1,203 @@
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+#include <cstring>
+#include <cctype>
+using namespace std;
+
+const int STRLEN = 4.0;
+const int MAXETAPPER = 10;
+const int MAXTOPPER = 50;
+const int MAXOPPOM = 10;
+
+class Topp
+{
+private:
+	char navn[STRLEN];
+	int moh,
+		hoyde;
+	float lengde; 
+
+public:
+	void skriv();
+	void skriv_navn();
+	void les_data(char nvm[]);
+	bool heter(char nvn[]);
+	void les_fra_fil(istream*inn);
+};
+
+class Etappe
+{
+private:
+	char startsted[STRLEN];
+	char sluttsted[STRLEN];
+	float lengde;
+	int ant_topper;
+	int topper[MAXOPPOM+1];
+
+public:
+	void skriv();
+	void les_data();
+	bool gaar_oppom(int n);
+	bool start_slutt(char nvn[]);
+	void les_fra_fill(istream*inn);
+};
+
+void skriv_meny();
+char les(char t[]);
+float les(const char t[], const int min, const int max);
+void les(const char t[], char s[], const int LEN);
+int finn_topp(char nvn[]);
+void skriv_topper();
+void skriv_etappe();
+void ny_topp();
+void ny_etappe();
+void oppom();
+void starter_slutter();
+void les_fra_fil();
+
+Topp toppene[MAXTOPPER + 1];
+Etappe etappene[MAXETAPPER + 1];
+int siste_topp;
+int siste_etappe;
+
+int main()
+{
+	char kommando;
+
+	les_fra_fil();
+	skriv_meny();
+	kommando = les("Ønske");
+	while (kommando != 'Q'){
+		switch (kommando)
+	{
+		case 'P': skriv_topper(); break;
+		case 'A': skriv_etappe(); break;
+		case 'T':ny_topp(); break;
+		case 'E': ny_etappe(); break;
+		case 'O':oppom(); break;
+		case 'S': starter_slutter(); break;
+		default:skriv_meny();	break;
+	}
+	kommando = les("Ønske");
+   }
+cout << "\n\n";
+return 0;
+}
+
+void Topp::skriv()
+{
+
+}
+void Topp::skriv_navn()
+{
+
+}
+void Topp::les_data(char nvn[])
+{
+
+}
+bool Topp::heter(char nvn[])
+{
+	return (!strcmp(navn, nvn));
+}
+void Topp::les_fra_fil(istream*inn)
+{
+
+}
+void Etappe::skriv()
+{
+
+}
+void Etappe::les_data()
+{
+
+}
+bool Etappe::gaar_oppom(int n)
+{
+
+}
+bool Etappe::start_slutt(char nvn[])
+{
+
+}
+void Etappe::les_fra_fill(istream*inn)
+{
+
+}
+
+void skriv_meny()
+{
+	cout << "\n\nFØLGENDE KOMMANDOER ER LOVLIGE: \n";
+	cout << "\tP=skriv alle topper\n";
+	cout << "\tA=skriv en etappe \n";
+	cout << "\tT=ny Topp\n";
+	cout << "\tE=ny etappe+n";
+	cout << "\tO=etapper som går oppom en gitt topp\n";
+	cout << "\tS=etappe som starter elelr slutter et gitt sted/by\n";
+	cout << "\tQ=avslutt"; 
+
+}
+char les(char t[])
+{
+	char ch;
+	cout << '\n' << t << ":";
+	cin >> ch; cin.ignore();
+	return (toupper(ch));
+}
+float les(const char t[], const int min, const int max)
+{
+	float n;
+	do
+	{
+		cout << '\t' << t << " (" << min << '-' << max << "):";
+		cin >> n; cin.ignore();
+	} while (n<min || n>max);
+	return n;
+}
+void les(const char t[], char s[], const int LEN)
+{
+	do
+	{
+		cout << '\t' << t << ": ";
+	} while (strlen(s) == 0);
+}
+int finn_topp(char nvn[])
+{
+	for (int i = 1; i <= siste_topp; i++)
+		if (toppene[i].heter(nvn)) return i;
+	return 0;
+}
+void skriv_topper()
+{
+
+}
+void skriv_etappe();
+{
+
+}
+void ny_topp()
+{
+
+}
+void ny_etappe()
+{
+	if (siste_etappe < MAXETAPPER)
+	{
+		etappene[++siste_etappe].les_data();
+	}
+	else
+		cout << "\n\nFullt med etapper i datastrukturen!\n\n";
+}
+void oppom()
+{
+
+}
+void starter_slutter()
+{
+
+}
+void les_fra_fil();
+{
+
+}

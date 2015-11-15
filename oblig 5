@@ -232,10 +232,9 @@ void skriv_etappe();
 	int nr = les("etappe?", 1, siste_etappe);
 	etappene[nr].skriv();
 
-
-|		for (i <= MAXTOPPER; toppene++)
+	for (int i = 1; i <= MAXTOPPER; toppene++)
 		{
-			toppene[etappenummer].skriv();
+			toppene[ant_topper].skriv();
 		}
 	
 }

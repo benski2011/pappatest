@@ -98,12 +98,7 @@ void Topp::skriv_navn()
 {
 	cout << navn << "\n";
 
-	for (int i = 1; i < STRLEN; i++)
-	{
-		cout << navn[i] << '\n';
-		cout << moh << '\n';
-		cout << lengde << '\n';
-	}
+
 }
 void Topp::les_data(char nvn[])
 {
@@ -123,7 +118,7 @@ void Topp::les_fra_fil(istream*inn)
 }
 void Etappe::skriv()
 {
-	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n" << ant_topper << '\n';
+	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n" <<Topp::navn << '\n';
 	
 }
 void Etappe::les_data()

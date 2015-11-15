@@ -1,122 +1,264 @@
-//oblig 3
-// Benjamin Skinstad 470918
+#include <fstream>
 #include <iostream>
-using namespace std;		//standard start
+#include <iomanip>
+#include <cstring>
+#include <cctype>
+using namespace std;
 
-struct brok					//struct for brøk1
+const int STRLEN = 4.0;
+const int MAXETAPPER = 10;
+const int MAXTOPPER = 50;
+const int MAXOPPOM = 10;
+
+class Topp
 {
-	int teller;
-	int nevner;
-};							//structen jeg skal bruke i hele structen når det kommer til brøk.
+private:
+	char navn[STRLEN];
+	int moh,
+		hoyde;
+	float lengde;
 
-brok brok1, brok2, brok3, temp, temp1, temp2; // definerer alle structsa jeg skal bruke
+public:
+	void skriv();
+	void skriv_navn();
+	void les_data(char nvm[]);
+	bool heter(char nvn[]);
+	void les_fra_fil(istream*inn);
+};
 
-int main()	
-{							//definerer loop av script
-	char q;					 //for stop
-	char valg1;				//char for det første valget
-	char valg2;				//char for the adnre valget
+class Etappe
+{
+private:
+	char startsted[STRLEN];
+	char sluttsted[STRLEN];
+	float lengde;
+	int ant_topper;
+	int topper[MAXOPPOM + 1];
 
-	temp.teller = 0;
-	temp.nevner = 0;		 //resetter temp's når scriptet kjøres på nytt
+public:
+	void skriv();
+	void les_data();
+	bool gaar_oppom(int n);
+	bool start_slutt(char nvn[]);
+	void les_fra_fill(ifstream& inn);
+};
 
-	cout << "nevner til brok 1: ";
-	cin >> brok1.teller;
-	cout << "nevner til brok 1: ";
-	cin >> brok1.nevner;
+void skriv_meny();
+char les(char t[]);
+float les(const char t[], const int min, const int max);
+void les(const char t[], char s[], const int LEN);
+int finn_topp(char nvn[]);
+void skriv_topper();
+void skriv_etappe();
+void ny_topp();
+void ny_etappe();
+void oppom();
+void starter_slutter();
+void les_fra_fil();
 
-	cout << "nevner til brok 2: ";
-	cin >> brok2.teller;
-	cout << "nevner til brok 2: ";
-	cin >> brok2.nevner;
+Topp toppene[MAXTOPPER + 1];
+Etappe etappene[MAXETAPPER + 1];
+int siste_topp;
+int siste_etappe;
 
-	cout << "nevner til brok 3: ";
-	cin >> brok3.teller;
-	cout << "nevner til brok 3: ";
-	cin >> brok3.nevner;
+int main()
+{
+	char kommando;
 
-			//i de 3 kolonnene over spørr jeg bruker om teller og nevner i 3 broker,. 
-			//det jeg setter inn via ciner definert i structs.
+	les_fra_fil();
+	skriv_meny();
+	kommando = les("Ønske");
+	while (kommando != 'Q'){
+		switch (kommando)
+		{
+		case 'P': skriv_topper(); break;
+		case 'A': skriv_etappe(); break;
+		case 'T':ny_topp(); break;
+		case 'E': ny_etappe(); break;
+		case 'O':oppom(); break;
+		case 'S': starter_slutter(); break;
+		default:skriv_meny();	break;
+		}
+		kommando = les("Ønske");
+	}
+	cout << "\n\n";
+	return 0;
+}
 
+void Topp::skriv() 
+{
+	for (int i = 1; i < STRLEN; i++)
+	{
+		cout << navn[i] << '\n';
+		cout << moh << '\n';
+		cout << lengde << '\n';
+	}
+
+}
+void Topp::skriv_navn()
+{
+	for (int i = 1; i < STRLEN; i++)
+	{
+		cout << navn[i] << '\n';
+		cout << moh << '\n';
+		cout << lengde << '\n';
+	}
+}
+void Topp::les_data(char nvn[])
+{
+	cout << "test";
+
+}
+bool Topp::heter(char nvn[])
+{
+	return (!strcmp(navn, nvn));
+}
+void Topp::les_fra_fil(istream*inn)
+{
+	cout << "test";
+
+}
+void Etappe::skriv()
+{
+	for (int i = 1; i < STRLEN; i++)
+	{
+		cout << startsted[STRLEN] << '\n';
+		cout << sluttsted[STRLEN] << '\n';
+		cout << lengde << '\n';
+		cout << ant_topper << '\n',
+		
+	}
+
+}
+void Etappe::les_data()
+{
+	ny_etappe();
+	
+}
+bool Etappe::gaar_oppom(int n)
+{
+	cout << "test";
+
+}
+bool Etappe::start_slutt(char nvn[])
+{
+	cout << "test";
+
+}
+void Etappe::les_fra_fill(ifstream& inn)
+{
+	ifstream topperFil("TOPPER.DTA");
+	if (topperFil)
+	{
+		topperFil >> siste_topp;
+		topperFil.ignore();
+		for (int i = 1; i <= siste_topp; ++i)
+		{
+			toppene[i].les_fra_fil(topperFil);
+		}
+		char toppNavn[STRLEN];
+
+	}
+	else
+	{
+		cout << "filen eksiterer ikke";
+	}
+}
+
+void skriv_meny()
+{
+	cout << "\n\nFØLGENDE KOMMANDOER ER LOVLIGE: \n";
+	cout << "\tP=skriv alle topper\n";
+	cout << "\tA=skriv en etappe \n";
+	cout << "\tT=ny Topp\n";
+	cout << "\tE=ny etappe+n";
+	cout << "\tO=etapper som går oppom en gitt topp\n";
+	cout << "\tS=etappe som starter elelr slutter et gitt sted/by\n";
+	cout << "\tQ=avslutt";
+
+}
+char les(char t[])
+{
+	char ch;
+	cout << '\n' << t << ":";
+	cin >> ch; cin.ignore();
+	return (toupper(ch));
+}
+float les(const char t[], const int min, const int max)
+{
+	float n;
 	do
 	{
-		cout << endl << "vill du renge med brok: \n" << "1= 1 og 2?\n" << "2= 1 og 3?\n" << "3= 2 og 3?\n";
-		cout << "press Q for og avslutte\n";
-		cin >> valg1;
-		valg1 = tolower(valg1);
-	} while (valg1 != '1' && valg1 != '2' && valg1 != '3' && valg1 != 'q');
-
-
-			// setter opp en meny med flere valg alternativer, etter brukeren har tastet inn noe,
-			//velger scripet riktig switch alternativ. om input input er noe annet en q eller 1,2,3,
-			//repeteres do loppen.
-	
-	while (valg1 != 'q')				//repeterer med mindre Q er svaret. 
-	
-	{
-		switch (valg1)
-		{
-		case '1': temp1 = brok1, temp2 = brok2; break;
-		case '2': temp1 = brok1, temp2 = brok3; break;
-		case '3': temp1 = brok2, temp2 = brok3; break;
-
-
-		}
-
-		/* i denne switchen sjekkes det for input ang hvem brok som skal brukes, etter input setttes temp1/2
-		etter input fra bruker,så breakes det ut, default break fanger opp alt annet. om q breakes det ut
-		og scripet avslutter*/
-
-
-		do
-			{
-				cout << "hvilke regneopprasjoner vill du utføre?: +,-,*,/ \n";
-				cin >> valg2;
-			} while (valg2 != '+' && valg2 != '-' && valg2 != '*' && valg2 != '/');
-			// ny meny for bruker. utifra valget til brukeren hopper scriptet til riktig case
-
-			switch (valg2)
-				//en switch for valg 2. utifra svaret gåes det til riktig alternativ (case)
-			{
-			case '+':temp.teller = (temp1.teller * temp2.nevner) + (temp1.nevner*temp2.teller);
-				temp.nevner = (temp1.nevner*temp2.nevner); break;
-
-				//om valg2 er + blir temp teller og nevner som temp1 og 2, så skrives svaret ut, 
-				//så breakes det
-
-			case '-': temp.teller = (temp1.teller*temp2.nevner) - (temp1.nevner*temp2.teller);
-				temp.nevner = (temp1.nevner*temp2.nevner); break;
-
-				//om valg2 er - setter temp teller og nevner som temp1 og 2, 
-				//så skrives svaret ut.
-
-			case '*':temp.teller = (temp1.teller*temp2.teller);
-				temp.nevner = (temp1.nevner*temp2.nevner); break;
-
-				//om valg2 er * setter temp teller og nevner som temp1 og 2, 
-				//så skrives svaret ut.
-
-			case '/':temp.teller = (temp1.teller*temp2.nevner);
-				temp.nevner = (temp1.nevner*temp2.teller); break;
-
-				//om valg2 er / setter temp teller og nevner som temp1 og 2, 
-				//så skrives svaret ut.
-
-			}
-			cout << temp1.teller << "/" << temp1.nevner << valg2 << temp2.teller << "/" << temp2.nevner;
-			cout << "=" << temp.teller << "/" << temp.nevner;
-
-			cout << endl << "vill du renge med brok: \n" << "1= 1 og 2?\n" << "2= 1 og 3?\n";
-			cout << "3= 2 og 3?\n";
-			cout << "press Q for og avslutte\n";
-			cin >> valg1;
-			// her skrives svaret ut, ting repeteres medmindre q er svaret
-
-		}
-
-	
-	return 0;								//slutt av scriptet
+		cout << '\t' << t << " (" << min << '-' << max << "):";
+		cin >> n; cin.ignore();
+	} while (n<min || n>max);
+	return n;
 }
-/*A programmer walks into a bar and asks the bartender for 1.00000000000003123939 root beers.
-Bartender says, "I'll have to charge you extra, that's a root beer float." Programmer says,
-"Better make it a double."*/
+void les(const char t[], char s[], const int LEN)
+{
+	do
+	{
+		cout << '\t' << t << ": ";
+	} while (strlen(s) == 0);
+}
+int finn_topp(char nvn[])
+{
+	for (int i = 1; i <= siste_topp; i++)
+		if (toppene[i].heter(nvn)) return i;
+	return 0;
+}
+void skriv_topper()
+{
+	for (int i = 1; i < siste_topp; i++)
+	{
+		if (i % 10 == 0)
+			les(" ");
+		cout << i;
+		toppene[i].skriv();
+		
+	}
+
+}
+void skriv_etappe();
+{
+	for (int i; i <= MAXETAPPER; i++)
+	{
+		etappene[i].skriv();
+	}
+}
+void ny_topp()
+{
+	if (siste_topp < MAXTOPPER)
+	{
+		toppene[++siste_topp].les_data();
+	}
+	else
+	{
+		cout << "\n\nFullt med tapper i datastrukturen!\n\n";
+	}
+}
+void ny_etappe()
+{
+	if (siste_etappe < MAXETAPPER)
+	{
+		etappene[++siste_etappe].les_data();
+	}
+	else
+		cout << "\n\nFullt med etapper i datastrukturen!\n\n";
+}
+void oppom()
+{
+	toppene[1].navn;
+}
+void starter_slutter()
+{
+	cout << "test";
+
+}
+void les_fra_fil();
+{
+	inn.getline(navn, STRLEN);
+	inn >> moh >> lengde >> hoyde;
+
+
+}

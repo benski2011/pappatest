@@ -119,8 +119,10 @@ void Topp::les_fra_fil(istream*inn)
 void Etappe::skriv()
 {
 	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n";
-	for (int i=1)
-
+	for (int i = 1; i <= ant_topper; i++)
+	{
+		topper[i].skriv();
+	}
 	
 }
 void Etappe::les_data()
@@ -233,10 +235,7 @@ void skriv_etappe()
 	int nr = les("etappe?", 1, siste_etappe);
 	etappene[nr].skriv();
 
-	for (int i = 1; i <= ant_topper; i++)
-		{
-			topper[i].skriv();
-		}
+
 	
 }
 void ny_topp()

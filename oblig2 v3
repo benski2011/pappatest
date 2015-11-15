@@ -87,16 +87,18 @@ int main()
 
 void Topp::skriv() 
 {
-	for (int i = 1; i < STRLEN; i++)
-	{
+	
 		cout << navn[i] << '\n';
+		cout << hoyde << '\n';
 		cout << moh << '\n';
 		cout << lengde << '\n';
-	}
+	
 
 }
 void Topp::skriv_navn()
 {
+	cout << navn << "\n";
+
 	for (int i = 1; i < STRLEN; i++)
 	{
 		cout << navn[i] << '\n';
@@ -106,8 +108,10 @@ void Topp::skriv_navn()
 }
 void Topp::les_data(char nvn[])
 {
-	cout << "test";
-
+	strcpy(navn, nvn);
+	moh = les("meter over havet", 0, 8850);
+	hoyde = les("meter over havet", 0, moh);
+	lengde = les("lengde", 0, 1000);
 }
 bool Topp::heter(char nvn[])
 {
@@ -120,6 +124,8 @@ void Topp::les_fra_fil(istream*inn)
 }
 void Etappe::skriv()
 {
+	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n" << ant_topper << '\n';
+	/*
 	for (int i = 1; i < STRLEN; i++)
 	{
 		cout << startsted[STRLEN] << '\n';
@@ -128,16 +134,29 @@ void Etappe::skriv()
 		cout << ant_topper << '\n',
 		
 	}
-
+	*/
 }
 void Etappe::les_data()
 {
-	ny_etappe();
-	
+	les("skriv started", startsted, STRLEN);
+	les("skriv started", sluttsted, STRLEN);
+	lengde = les("lengde", 0, 1000);
+	ant_topper = les("antalltopper", 1, MAXOPPOM);
+	for (int i = 1 i <= ant_topper; i++)
+	{
+		topper[i] = les("hvilken topp", 1, siste_topp);
+	}
 }
 bool Etappe::gaar_oppom(int n)
 {
-	cout << "test";
+	for (int i = 1; i <= ant_topper; i++)
+	{
+		if (topper[i] == n)
+		{
+			return true;
+		}
+	}
+	return false;
 
 }
 bool Etappe::start_slutt(char nvn[])
@@ -187,12 +206,12 @@ char les(char t[])
 float les(const char t[], const int min, const int max)
 {
 	float n;
-	do
-	{
-		cout << '\t' << t << " (" << min << '-' << max << "):";
-		cin >> n; cin.ignore();
-	} while (n<min || n>max);
-	return n;
+do
+{
+cout << '\t' << t << " (" << min << '-' << max << "):";
+cin >> n; cin.ignore();
+} while (n<min || n>max);
+return n;
 }
 void les(const char t[], char s[], const int LEN)
 {
@@ -211,31 +230,50 @@ void skriv_topper()
 {
 	for (int i = 1; i < siste_topp; i++)
 	{
-		if (i % 10 == 0)
-			les(" ");
+
 		cout << i;
 		toppene[i].skriv();
-		
+		if (i % 10 == 0)
+		{
+			les(" ");
+		}
 	}
 
 }
 void skriv_etappe();
 {
-	for (int i; i <= MAXETAPPER; i++)
+	int nr = les("etappe?", 1, siste_etappe);
+	etappene[nr].skriv();
+
+
+	int etappenummer;
+	cout << "tast inn etappenummer:" << endl;
+	cin << etappenummer;
+	while (etappenummer <= MAXETAPPER || siste_etappe)
 	{
-		etappene[i].skriv();
+		for (int i; i <= MAXETAPPER; i++)
+		{
+			etappene[i].skriv();
+		}
 	}
 }
 void ny_topp()
 {
-	if (siste_topp < MAXTOPPER)
-	{
-		toppene[++siste_topp].les_data();
-	}
-	else
+	if (siste_topp >= MAXTOPPER)
 	{
 		cout << "\n\nFullt med tapper i datastrukturen!\n\n";
+		return;
 	}
+	char TempNavn[STRLEN];
+	les("skriv navn", TempNavn, STRLEN);
+
+	if (finn_topp(TempNavn) == 0)
+	{
+		cout << "topp finnes ";
+		return;
+	}		toppene[++siste_topp].les_data();
+
+
 }
 void ny_etappe()
 {
@@ -248,12 +286,32 @@ void ny_etappe()
 }
 void oppom()
 {
-	toppene[1].navn;
+	;
+	les("skriv topp", topp_navn, STRLEN);
+	int index = finnTopp(toppnavn);
+	if (index != 0)
+	{
+		for (int i = 1; i <= siste_etappe; i++)
+		{
+			if (etappene[i].gaar_oppom(index))
+			{
+				cout << i << " ";
+			}
+		}
+	}
+	char toppnavn[STRLEN]
 }
 void starter_slutter()
 {
-	cout << "test";
-
+	char by[STRLEN];
+	les("hvilken by", by, STRLEN);
+	for  (int i = 1; i <= siste_etappe; i++)
+	{
+		if ( etappene[i].start_slutt(by))
+		{
+			cout << i << "\n";
+		}
+	}
 }
 void les_fra_fil();
 {

@@ -118,7 +118,9 @@ void Topp::les_fra_fil(istream*inn)
 }
 void Etappe::skriv()
 {
-	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n" <<Topp::navn << '\n';
+	cout << startsted << "\n" << sluttsted << '\n' << lengde << "\n";
+	for (int i=1)
+
 	
 }
 void Etappe::les_data()
@@ -231,16 +233,11 @@ void skriv_etappe();
 	etappene[nr].skriv();
 
 
-	int etappenummer=1;
-	cout << "tast inn etappenummer:" << endl;
-	cin << etappenummer;
-	while (etappenummer <= MAXETAPPER || siste_etappe)
-	{
-		for ( i <= MAXETAPPER; etappenummer++)
+|		for (i <= MAXTOPPER; toppene++)
 		{
-			etappene[etappenummer].skriv();
+			toppene[etappenummer].skriv();
 		}
-	}
+	
 }
 void ny_topp()
 {

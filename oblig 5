@@ -227,8 +227,9 @@ void skriv_topper()
 	}
 
 }
-void skriv_etappe();
-{
+void skriv_etappe()
+{ //error expected an declreation, hvorfor?
+	
 	int nr = les("etappe?", 1, siste_etappe);
 	etappene[nr].skriv();
 

@@ -87,8 +87,7 @@ int main()
 
 void Topp::skriv()
 {
-
-	cout << navn[i] << '\n';
+	cout << navn << '\n';
 	cout << hoyde << '\n';
 	cout << moh << '\n';
 	cout << lengde << '\n';
@@ -286,9 +285,9 @@ void ny_etappe()
 }
 void oppom()
 {
-	;
-	les("skriv topp", topp_navn, STRLEN);
-	int index = finnTopp(toppnavn);
+	
+	les("skriv topp", navn[], STRLEN);
+	int index = finn_topp(toppnavn);
 	if (index != 0)
 	{
 		for (int i = 1; i <= siste_etappe; i++)

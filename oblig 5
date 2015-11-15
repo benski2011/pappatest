@@ -234,7 +234,7 @@ void skriv_etappe();
 
 	for (int i = 1; i <= MAXTOPPER; toppene++)
 		{
-			toppene[ant_topper].skriv();
+			topper[ant_topper].skriv();
 		}
 	
 }

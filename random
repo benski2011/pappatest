@@ -1,0 +1,23 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+	char txt[] = "neste_gang_vil_arsenal_banke_tottenham_grundig";
+
+int main()
+{
+
+	int i = 8;
+	int j = 28 % i;
+	cout << txt[i]; cout << i << ' ' << txt[j]; cout << j; cout <<  '\n';
+	i /= j; cout << i << endl << j << endl; 
+	while (i <= 15){
+		cout << i << txt[i*(j / 2)] << i*(j/2) << ' ' << txt[i * j] << i*j <<  '\n';
+		i *= i;
+		j += 2; 
+	}
+	j = j;
+	for (i = 30; i > 22; i -= j)
+		cout << txt[i - j] << ' ' << txt[i + j] << '\n';
+
+	return 0;
+}

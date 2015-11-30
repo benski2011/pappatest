@@ -25,7 +25,7 @@ enum Type { Grus, Pukk, Sand };
 
                         //  KLASSE:
 class Kunde  {             //  Kunden/kjøretøyet som henter noe i grustaket:
-  private:
+  private: 
     bool brukes;           //  Om objektet er i bruk eller ei for tiden.
     int  vekt_inn,         //  Totalvekt på bil (og tilhenger) ved ankomst.
          vekt_ut,          //  Totalvekt på bil (og tilhenger) ved avreise.

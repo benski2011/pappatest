@@ -1,6 +1,6 @@
-//  Fil:   FRODEH \ C++ \ EXTRAMEN \ EX_S15_2.TPL
+//  Fil:   FRODEH \ C++ \ EXTRAMEN \ EX_S15_2.CPP
 
-//  Skjellettet/template for eksamen i C++, 12.august 2015, oppgave 2.
+//  Løsningsforslag til eksamen i C++, 12.august 2015, oppgave 2.
 //  Laget av Frode Haug, HiG, juli 2015.
 
 //  Programmet holder orden på ulike sykkellag og rytterne/syklistene
@@ -123,34 +123,45 @@ void Lag::enRytterTil()  {      //  En rytter til er registrert på/i laget:
 }
 
 
-void Lag::skriv()  {                             //  Skriver ALT om laget:
-
-        //  Oppgave 2B:  Lag innmaten
+void Lag::skriv()  {            //  Oppgave 2B - Skriver ALT om laget:
+  int start = (nr-1) * 10;             //  Beregner rytternes RELLE startindeks.
+                                       //  Skriver ALLE egne data: 
+  cout << "\n\t" << navn << ", " << land << ", tlf: " << tlf 
+       << "\n\t" << antallRegistrert << " ryttere/syklister registrert:\n";
+  for (int i = 1;  i <= MAXPRLAG;  i++)       //  For ALLE aktuelle ryttere:
+      if (ryttere[start+i].finnes())  {       //  En gitt rytter finnes:
+         cout << "\t\t" << start+KOMP+i << ':';   //  Skriver AKTUELT startnr.
+         ryttere[start+i].skriv();                //  Rytter skriver seg selv.
+      }  
 }
 
 
-void Lag::nytt(int n)  {                         //  Leser ALLE egne data:
-
-        //  Oppgave 2C:  Lag innmaten
-}
-
- 
-void Lag::skrivTilFil(ofstream & ut)  {          //  Skriver ALT eget til fil:
-
-        //  Oppgave 2E:  Lag innmaten
+void Lag::nytt(int n)  {        //  Oppgave 2C - Leser ALLE egne data:
+  nr = n;                              //  Gjemmer unna parameter (egen indeks).
+  antallRegistrert = 0;                //  Nullstiller.
+  les("Navn", navn, STRLEN);           //  Leser 3x tekster:
+  les("Land", land, STRLEN/15);
+  les("Tlf ", tlf,  STRLEN/2);
 }
 
 
-void Lag::lesFraFil(int n, ifstream & inn)  {    //  Leser ALT eget fra fil:
-
-        //  Oppgave 2F:  Lag innmaten
+void Lag::skrivTilFil(ofstream & ut)  {   //  Oppgave 2E - Skriver ALT eget
+  ut << land << ' ' << antallRegistrert   //               til fil:
+     << ' ' << tlf << '\n' << navn << '\n';
 }
 
-               //  Returnerer antall gjenstående ryttere å registrerer på laget:
-int  Lag::antallManglendeRyttere()  {     
 
-        //  Oppgave 2G:  Lag innmaten
+void Lag::lesFraFil(int n, ifstream & inn)  {  //  Oppgave 2F - Leser ALT eget
+  nr = n;                                      //               fra fil:
+  inn >> land >> antallRegistrert;   inn.ignore();
+  inn.getline(tlf,  STRLEN/2);
+  inn.getline(navn, STRLEN);
 }
+
+
+int  Lag::antallManglendeRyttere()  {     //  Oppgave 2G - Returnerer antall
+   return (MAXPRLAG - antallRegistrert);  //            gjenstående ryttere å 
+}                                         //            registrerer på laget.
 
 
 // --------------------------------------------------------------------------
@@ -165,33 +176,36 @@ bool Rytter::finnes()  {        //  Returnerer om objektet er i bruk eller ei
 }
 
 
-void Rytter::skriv()  {         //  Skriver ALT om rytteren:
-
-        //  Oppgave 2A:  Lag innmaten
+void Rytter::skriv()  {         //  Oppgave 2A - Skriver ALT om rytteren:
+  cout << '\t' << navn << ", " << land << ((brutt)? ", BRUTT" : "") << '\n';
 }
 
 
-void Rytter::ny()  {            //  Leser ALLE egne data:
-
-        //  Oppgave 2D:  Lag innmaten
+void Rytter::ny()  {            //  Oppgave 2D - Leser ALLE egne data:
+  brutt = false;                       //  Initierer.
+  les("Navn", navn, STRLEN);           //  Leser 2x tekster:
+  les("Land", land, STRLEN/15);
 }
 
-                                //  Skriver ALT eget til fil:
+                                //  Oppgave 2E - Skriver ALT eget til fil:
 void Rytter::skrivTilFil(ofstream & ut)  { 
-
-        //  Oppgave 2E:  Lag innmaten
+  ut << ((brutt) ? "0" : "1") << ' ' << land << ' ' << navn << '\n';
 }
 
-                                //  Leser ALT eget fra fil:
+                                //  Oppgave 2F - Leser ALT eget fra fil:
 void Rytter::lesFraFil(ifstream & inn)  {     
-
-        //  Oppgave 2F:  Lag innmaten
+  int nr;
+  inn >> nr >> land;  inn.ignore();   brutt = (nr == 0);
+  inn.getline(navn, STRLEN); 
 }
 
 
-void Rytter::bruttRittet()  {   //  Registrerer at rytter brutt:
-
-        //  Oppgave 2G:  Lag innmaten
+void Rytter::bruttRittet()  {   //  Oppgave 2G - Registrerer at rytter brutt:
+  cout << "\tHar rytteren VIREKELIG brutt (j/N): ";  //  Ønsker virkelig?
+  if (les() == 'J')                               //  Ja:
+     brutt = true;                                //     Registrerer at brutt.
+  else                                            //  Nei:
+     cout << "\tOK, ingen endring har skjedd.\n";  //    Tilbakemelding.
 }
 
 
@@ -234,49 +248,122 @@ void les(const char t[], char s[], const int LEN) {
 }
 
 
-void skrivEnRytter()  {      //  Skriver ALLE data om EN rytter:
-
-        //  Oppgave 2A:  Lag innmaten
+void skrivEnRytter()  {  //  Oppgave 2A - Skriver ALLE data om EN rytter:
+                         //     Leser startnummer. Konverterer til REELL indeks: 
+  int nr = les("Skriv alt om rytter nr", 11, MAXRYTTERE+MAXPRLAG) - KOMP;
+  if (ryttere[nr].finnes())   //  Rytteren finnes:
+     ryttere[nr].skriv();     //  Skriver selv alle egne data.
+  else
+     cout << "\n\tIngen rytter ennå registrert på dette nummeret!\n\n";
 }
 
 
-void skrivEttLag()  {        //  Skriver ALLE data om ETT lag:
-
-        //  Oppgave 2B:  Lag innmaten
+void skrivEttLag()  {        //  Oppgave 2B - Skriver ALLE data om ETT lag:
+  int nr = les("Skriv ALT om lag nr", 1, MAXLAG);   //  Leser lagnummer.
+  if (lagene[nr].finnes())              //  Laget finnes:
+     lagene[nr].skriv();                //  Skriver selv alle egne data.
+  else
+     cout << "\n\tIngen lag ennå registrert på dette nummeret!\n\n";
 }
 
 
-void nyttLag()  {            //  Registrerer nytt lag:
-
-        //  Oppgave 2C:  Lag innmaten
+void nyttLag()  {            //  Oppgave 2C - Registrerer nytt lag:
+  int nr = les("Nytt lag nr", 1, MAXLAG);  //  Leser lagnummer.
+  if (!lagene[nr].finnes())                //  Laget finnes:
+     lagene[nr].nytt(nr);                  //  Leser selv alle egne data.
+  else
+     cout << "\n\tLag allerede registrert på dette nummeret!\n\n";
 }
 
 
-void nyRytter()  {           //  Registrerer ny rytter:
-
-        //  Oppgave 2D:  Lag innmaten
+void nyRytter()  {          //  Oppgave 2D - Registrerer ny rytter:
+                            //  Leser rytterens aktuelle nummer:
+  int lagNr, nr = les("Nytt rytter nr", 11, MAXRYTTERE+MAXPRLAG);
+  if (nr % 10)  {           //  Rytternummer ender IKKE på '0' (null).
+                            //  Beregner lagets nummer og REELL indeks:
+     lagNr = nr / 10;   nr -= KOMP; 
+     if (!ryttere[nr].finnes())  {      //  Rytteren finnes IKKE allerede:
+        if (lagene[lagNr].finnes())  {  //  Laget finnes:
+           lagene[lagNr].skriv();       //  Skriver ALT om laget.
+                                        //  Ønsker å legges til dette lager?:
+           cout << "\tTilhører rytteren dette laget (J/n): ";
+           if (les() != 'N')  {               //  "Ja":
+              ryttere[nr].ny();               //  Leser ALLE egne data.
+              lagene[lagNr].enRytterTil();    //  Lagets antall telles opp.
+           }
+        } else
+          cout << "\n\tRytterens lag finnes ikke ennå!\n\n";
+     } else
+       cout << "\n\tRytter allerede registrert på dette nummeret!\n\n";
+  } else
+     cout << "\n\tRytternummer kan ikke ende på '0' (null)!\n\n";
 }
 
 
-void skrivTilFil()  {        //  Skriver HELE datastrukturen til fil:
+void skrivTilFil()  {      //  Oppgave 2E - Skriver HELE datastrukturen til fil:
+  int i;
+  ofstream utfil("SYKKELLAG.DT2");
+  for (i = 1;  i <= MAXLAG;  i++)         //  For hvert lag:
+      if (lagene[i].finnes())  {          //  Laget finnes:
+         utfil << i << ' ';               //  Skriver dets indeks,
+         lagene[i].skrivTilFil(utfil);    //    og skriver selv ALLE egne data.
+      }
 
-        //  Oppgave 2E:  Lag innmaten
+  ofstream utfil2("RYTTERE.DT2");
+  for (i = 1;  i <= MAXRYTTERE;  i++)     //  For hver rytter/syklist:
+      if (ryttere[i].finnes())  {         //  Rytteren finnes: 
+         utfil2 << i << ' ';              //  Skriver dens REELLE indeks,
+         ryttere[i].skrivTilFil(utfil2);  //    og skriver selv ALLE egne data.
+      } 
 }
 
 
-void lesFraFil()  {          //  Leser HELE datastrukturen fra fil:
+void lesFraFil()  {          //  Oppgave 2F - Leser HELE datastrukturen fra fil:
+  int nr;                               //  Lagets/rytterens nummer/indeks.
+  ifstream innfil("SYKKELLAG.DTA");     //  Åpner aktuell fil.
 
-        //  Oppgave 2F:  Lag innmaten
+  if (innfil)  {                            //  Filen finnes:
+     innfil >>  nr;                         //  Leser (om mulig) 1.felt i post.
+     while (!innfil.eof())  {               //  Filen ennå ikke slutt:
+       lagene[nr].lesFraFil(nr, innfil);    //  Leser resten selv.
+       innfil >>  nr;                       //  Leser (om mulig) 1.felt i post.
+     }
+  } else                                    //  Filen ble ikke funnet:
+    cout << "\n\nFinner ikke filen 'SYKKELLAG.DTA'!\n\n";
+
+  ifstream innfil2("RYTTERE.DTA");
+  if (innfil2)  {                           //  Filen finnes:
+     innfil2 >> nr;                         //  Leser (om mulig) REELL indeks.
+     while (!innfil2.eof())  {              //  Filen ennå ikke slutt:  
+       ryttere[nr].lesFraFil(innfil2);      //  Leser resten selv.
+       innfil2 >> nr;                       //  Leser (om mulig) REELL indeks.
+     }
+  } else                                     //  Filen ble ikke funnet:
+    cout << "\n\nFinner ikke filen 'RYTTERE.DTA'!\n\n";
 }
 
 
-void rytterBrutt()  {        //  ( Registrerer at rytter har brutt )
-
-        //  Oppgave 2G:  Lag innmaten
+void rytterBrutt()  {    //  ( Oppgave 2G - Registrerer at rytter har brutt )
+                         //     Leser startnummer. Konverterer til REELL indeks: 
+  int nr = les("Brutt rytter nr", 11, MAXRYTTERE+MAXPRLAG) - KOMP;   
+  if (ryttere[nr].finnes())                        //  Rytteren finnes:
+     ryttere[nr].bruttRittet();                    //  Registrerer at har brutt.
+  else
+     cout << "\n\tIngen rytter ennå registrert på dette nummeret!\n\n";
 }
 
 
-void statusLagene()  {       //  Skriver status for ALLE lagene:
-
-        //  Oppgave 2G:  Lag innmaten
+void statusLagene()  {         //  Oppgave 2G - Skriver status for ALLE lagene:
+  int i, antall;                   //  Løkkevariabel, antall manglende ryttere.
+  cout << "\n\tStatus for alle lagene:\n";
+  for (i = 1;  i <= MAXLAG;  i++)  {    //  For hvert lag:
+     cout << "\t\t" << i << ": ";       //  Skriver dets indeks.
+     if (!lagene[i].finnes())           //  Laget finnes IKKE (ennå):
+        cout << "\tFINNES IKKE";          
+     else if ((antall = lagene[i].antallManglendeRyttere()))  // Ryttere mangler  
+        cout << '\t' << antall << " ryttere å registrere";
+     else                               //  Alt OK (finnes og alle registrert):
+        cout << "OK";
+     cout << '\n';
+  }
 }

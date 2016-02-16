@@ -1,196 +1,292 @@
-//Benjamin Skinstad 470918
+// Benjamin Skinstad 470918
 
 #include <fstream>                     //  ifstream, ofstream
 #include <iostream>                    //  cout
 using namespace std;
 
-//  konstanter
-const int  ANTARR = 11;           //  antall arrangementer
-const int  ANTKUNDER = 201;           //  antall kunder
-const int  NVNLEN = 20;           // kunde navns lengde
-const int  ARRLEN = 35;           //  arrengement navn lengde
+const int  ANTARR = 11;           //  Antall arrangement (1-10 stk).
+const int  ANTKUNDER = 201;           //  Antall kunder (1-200 stk).
+const int  NVNLEN = 20;           //  Kundenavns lengde.
+const int  ARRLEN = 35;           //  Arrangementnavns lengde.
 
-//deklrasjon av funksjoner
+enum Oppdater { Bestilt, Faatt, Kopier };
 
-void lesBilletterFraBinFil(); //funksjonen leser fra biletter bin fil
-void lesKunderFraBinFil();    //funksjon leser fra binar fil til kunder
-void WritetoASCII();          // skriver til ascii fila
+
+//  DEKLARASJON AV FUNKSJONER:
+void lesBilletterFraFil();
+void lesKunderFraFil();
+void fordelBilletter();
+int hentPris(int i);
 
 //  KLASSER:
-class Kunde
-{         //klasse for kunde
+class Kunde  {
 private:
-	char navn[NVNLEN];                 //   navn.
-	int  antBestilt[ANTARR];           //  Antall bestilte per arrangement
-	int  antFaatt[ANTARR];             //  Antall biletter han har fått per arrengement.
-
-public:                              //funksjoner
-	Kunde();
-	void hentNavn(char nvn[NVNLEN]);
-	void hentAntallFaatArr(int nr, int& ant);
-	void hentAntallFaat(int& ant);
-};
-
-
-class Arrangement
-{
-private:
-	char tittel[ARRLEN];               //  Arrangementets navn.
-	int  pris;                         //  Pris ea
-	int  antPlasser;                   //  Antall plassertotalt.
-	int  antSolgt;                     //  Antall billetter solgt 
-	int  totaltBilletterBestilt;       //  Totalt ønsket billetter.
-	int  totaltKunderBestilt;          //  Antall kunder som ønsker billetter.
+	char navn[NVNLEN];                 //  Kundens navn.
+	int  antBestilt[ANTARR];           //  Antall bestilte pr. arrangement.
+	int  antFaatt[ANTARR];             //  Antall f†tt pr. arrangement.
 
 public:
-	Arrangement();                     //funksjoner
-	void hentNavn(char titt[ARRLEN]);
-	void hentPris(int num, int& tot);
+	Kunde();
+	void oppdaterBestiltFaatt(int nr, Oppdater oppdat, int ant = 0);
+	int  antOnsket(int nr);
+	//  Ekstra funksjon for † se hva som skjer ved trekkingen:
+	void skriv()  {
+		int i;
+		cout << '\n' << navn << "\n\t";
+		for (i = 1; i < ANTARR; i++)
+			cout << antBestilt[i] << " ";
+		cout << "\n\t";
+		for (i = 1; i < ANTARR; i++)
+			cout << antFaatt[i] << " ";
+	}
+	void skrivTilFil();
 };
 
-//  globale varriabler
+
+class Arrangement  {
+private:
+	char tittel[ARRLEN];               //  Arrangementets tittel/navn.
+	int  pris;                         //  Pris pr. billett.
+	int  antPlasser;                   //  Antall plasser/billetter totalt.
+	int  antSolgt;                     //  Antall billetter solgt hittil.
+	int  totaltBilletterBestilt;       //  Totalt ›nsket antall billetter.
+	int  totaltKunderBestilt;          //  Antall kunder som ›nsker billetter.
+
+public:
+	Arrangement();
+	void oppdater(char titt[], int ant, int pri);
+	void oppdaterAntallOnskedeBilletter(int antBill);
+	void oppdaterAntallSolgte(int ant);
+	bool maaTrekke();
+	int  antIgjen();
+	int  antBestilt();
+	//  Ekstra funksjon for † se hva som skjer ved trekkingen:
+	void skriv()  {
+		cout << '\n' << pris << "\t"
+			<< antPlasser << "\t"
+			<< antSolgt << "\t"
+			<< totaltBilletterBestilt
+			<< "\t" << totaltKunderBestilt
+			<< '\t' << tittel;
+	}
+	int hentPris();
+};
+
+//  GLOBALE VARIABLE:
 Kunde        kunder[ANTKUNDER];        //  Alle kundene.
 Arrangement  arrangementer[ANTARR];    //  Alle arrangementene.
+int          antKunder;                //  Antall kunder som har bestilt.
 
 
-//  int main:
-int main()
-{
-	cout << "\n\n\tLeser data fra filene "   //les funksjon
+//  HOVEDPROGRAM:
+int main()  {
+	int valg;
+	cout << "\n\n\tLeser data fra filene "
 		<< "'BIL_OLXX.RES' og 'KUN_OLXX.RES' .....\n\n";
-	lesBilletterFraBinFil();                  //leser ffra biletter
-	lesKunderFraBinFil();                     //leser fra kunder
+	lesBilletterFraFil();
+	lesKunderFraFil();
+	fordelBilletter();
+	std::cout << "Hvilken kunde vil du skrive faktura for? 1-10\n";
+	std::cin >> valg;
+	kunder[valg].skrivTilFil();
 
-
-	cout << "\n\n\tSkriver resultat til filene "
-		<< "'faktura.txt' .....\n\n";
-	WritetoASCII();
-	return 0;                               //skriver til ascii 
+	return 0;
 }
 
 //  DEFINISJON AV KLASSE-FUNKSJONER:
-Kunde::Kunde()                         //nullstiller arrayers innhold.
+Kunde::Kunde()                         //  Nullstiller arrayers innhold.
 {
-	for (int i = 1; i < ANTARR; i++) i[antBestilt] = i[antFaatt] = 0;
 }
 
 
-void Kunde::hentNavn(char nvn[NVNLEN])  //henter kundens navn.
+void Kunde::oppdaterBestiltFaatt(int nr, Oppdater oppdat, int ant)
 {
-	for (int i = 0; i < NVNLEN; i++)
-	{
-		i[nvn] = i[navn];
-	}
+	if (oppdat == Bestilt)  antBestilt[nr] = ant;
+	else if (oppdat == Faatt)    antFaatt[nr] = ant;
+	else                         antFaatt[nr] = antBestilt[nr];
 }
 
-void Kunde::hentAntallFaatArr(int nr, int& ant)	//henter antall 
+//  Returnerer med antall billetter kunden ›nsker p† arrangement nr."nr":
+int Kunde::antOnsket(int nr)
 {
-	ant = nr[antFaatt];
+	return  antBestilt[nr];
 }
 
-void Kunde::hentAntallFaat(int& ant) //henter antall
-{
-	int counter = 0;
-	for (int i = 0; i < ANTARR; i++)
-	{
-		counter += i[antFaatt];
-	}
-	ant = counter;
-}
-
-Arrangement::Arrangement()		//nullstiller medlemmene
+Arrangement::Arrangement()		//  Nullstiller medlemmene:
 {
 	pris = antPlasser = antSolgt =
 		totaltBilletterBestilt = totaltKunderBestilt = 0;
 }
 
-//henter en del av medlemmene
-
-void Arrangement::hentNavn(char titt[ARRLEN])
+//  Oppdaterer en del av medlemmene:
+void Arrangement::oppdater(char titt[], int ant, int pri)
 {
-	for (size_t i = 0; i < ARRLEN; i++)
+	strcpy_s(tittel, titt);   antPlasser = ant;   pris = pri;
+}
+
+// Oppdaterer hvor mange billetter som er bestilt:
+void Arrangement::oppdaterAntallOnskedeBilletter(int antBill)
+{
+	++totaltKunderBestilt;    totaltBilletterBestilt += antBill;
+}
+
+//  Oppdaterer antall solgte billetter:
+void Arrangement::oppdaterAntallSolgte(int ant)
+{
+	antSolgt += ant;
+}
+
+//  Returnerer "true" dersom ikke alle kundene kan f† sine billett›nsker:
+bool Arrangement::maaTrekke()
+{
+	return (antPlasser < totaltBilletterBestilt);
+}
+
+//  Returnerer antall ikke solgte:
+int Arrangement::antIgjen()
+{
+	return  (antPlasser - antSolgt);
+}
+
+//  Returnerer antall kunder bestilt:
+int Arrangement::antBestilt()
+{
+	return  totaltKunderBestilt;
+}
+
+int Arrangement::hentPris()
+{
+	int temp;
+	temp = pris;
+	return temp;
+}
+
+//skriver ut informasjon om kunden til ASCII fil
+void Kunde::skrivTilFil()
+{
+	ofstream utfil("kunde.dta");
+	int pris, totalPris;
+	totalPris = 0;	//totalpris for personen
+	pris = 0;		//variabel til utregning
+	utfil << "Navn på kunde:\t" << navn << '\n';
+	for (int i = 1; i < ANTARR; i++)	//printer alle bestillinger
 	{
-		i[titt] = i[tittel];
+		utfil << "Antall bestillinger per arrangemnet, arrnummer "
+			<< i << ": " << antBestilt[i] << '\n';
 	}
+	for (int i = 1; i < ANTARR; i++)	//printer alle motatte biletter
+	{
+		if (antFaatt[i] != 0)				//hvis motatt, printer ut mengde mottatt
+		{
+			utfil << "Antall biletter motatt per arrangemnet, arrnummer "
+				<< i << ": " << antFaatt[i] << '\n';
+		}
+	}
+	for (int i = 1; i < ANTARR; i++)	//regner ut totalpris
+	{
+		if (antFaatt[i] != 0)
+		{
+			pris = hentPris(i);
+			totalPris += (pris*antFaatt[i]);
+
+		}
+	}
+	utfil << "Totalpris for arrangementet: " << totalPris;
 }
 
-void Arrangement::hentPris(int num, int& tot) //henter pris
-{
-	tot = pris * num;
-}
 
+//  DEFINISJONER AV FUNKSJONER:
+void fordelBilletter() {
+	int  i, j, k;                         //  L›kke-/tellevariable
+	int  antOnsket, antIgjen;             //  Antall billetter som en kunde har
+	//   ›nsket, og antall som er igjen.
+	int  relNr, absNr;                    //  Relativt og absolutt kundenummer.
 
+	srand(0);
 
+	for (i = 1; i < ANTARR; i++)        //  G†r gjennom ALLE arrangementene:
+		//  Dersom ikke alle kan f† (m† trekke)
+		if (arrangementer[i].maaTrekke()) {
+			//  S†lenge flere billetter † dele ut:
+			while ((antIgjen = arrangementer[i].antIgjen()) > 0) {
+				//  Trekker kundens relative nummer:
+				relNr = (rand() % arrangementer[i].antBestilt()) + 1;
 
-void WritetoASCII()
-{
-	char kunNavn[NVNLEN], arrNavn[ARRLEN];   //Kundens og arrangement navn.
-	int  antArr, antBill;         //  Variabler
-	int  number, totPris, pris;  //flere variabler
-	ofstream utfil("faktura.txt");
-	antArr = ANTARR;
-	if (utfil) {
-		for (number = 1; number < ANTKUNDER; number++)
-		{					// for løkke som skriver inn all dataen for hver kunde.
-			totPris = 0;	//resetter variablen
-			pris = 0;		//resetter variablen
-			antBill = 0;	//resetter variablen
-			antArr = 0;		//resetter variablen
-			kunder[number].hentNavn(kunNavn);				//henter kundens navn.
-			utfil << "Kundens navn: " << kunNavn << '\n';   //Skriver kundens navn
-			kunder[number].hentAntallFaat(antArr);			//henter antall biletter fått
-			utfil << "Kundens billetter: " << antArr		//skriver ut "overssikt"
-				<< "\t\t" << "Billeter" << '\t' << "Pris" << '\n';
-			for (int i = 1; i < ANTARR; i++)
-			{
-				//  skriver arr.number og antall billetter.
-				number[kunder].hentAntallFaatArr(i, antBill);
-				if (antBill > 0)						          	//hvis antall biletter er
-				{										                  	//større enn null så skrives
-					arrangementer[i].hentNavn(arrNavn);		//bilettene ut til fil
-					arrangementer[i].hentPris(antBill, pris);
-					utfil << arrNavn;				        		//Billetene skrives ut med
-					if (i % 2 == 0)					        		//antall biletter kjøpt
-						utfil << '\t';				        		//og navn på arrangement
-					utfil << '\t' << antBill << "\t\t" << pris << '\n';
-					totPris += pris;			        			//her legges pris til totalpris
-					pris = 0;						            		//deretter resettes pris!
+				//  M† lete etter denne kunden:
+				absNr = 0;	k = 0;
+				while (k < relNr) {			//  S†lenge ikke funnet s† mange kunder
+					//   som ›nsker dette arrangementet:  
+					++absNr;
+					if ((antOnsket = kunder[absNr].antOnsket(i)) != 0)  ++k;
 				}
+
+				//  Dersom ikke de siste billettene som g†r/selges unna:
+				if (antIgjen >= antOnsket) {
+					//  Oppdaterer kundens mottatte billetter med ALLE de hun/han ›nsket seg:
+					kunder[absNr].oppdaterBestiltFaatt(i, Kopier);
+					//  Oppdaterer hvor mange som n† totalt er solgt p† arrangementet:
+					arrangementer[i].oppdaterAntallSolgte(antOnsket);
+				}
+				else {        //  Det er de aller siste billettene som n† selges:
+					//  Oppdaterer kundens mottatte billetter med de som er igjen:
+					kunder[absNr].oppdaterBestiltFaatt(i, Faatt, antIgjen);
+					//  Oppdaterer med at alt er n† utsolgt p† arrangementet:
+					arrangementer[i].oppdaterAntallSolgte(antIgjen);
+				}
+
 			}
-			utfil << "Total pris (for alle bilettene): " << totPris << "\n\n\n";
-		}	//i linjen over skrives den totale prisen ut for kunden.
+			arrangementer[i].skriv();
+		}
+		else {       //  Trenger IKKE å trekke:
+			//  G†r gjennom ALLE kundene og gir de som 
+			//    bestilte billetter det ›nskede antall:
+			for (j = 1; j <= antKunder; j++)
+				//  Dersom kunden har bestilt til dette arrangement:
+				if ((antOnsket = kunder[j].antOnsket(i)) != 0) {
+					//  Oppdaterer kundens mottatte billetter med ALLE de hun/han ›nsket seg:
+					kunder[j].oppdaterBestiltFaatt(i, Kopier);
+					//  Oppdaterer hvor mange som n† totalt er solgt p† arrangementet:
+					arrangementer[i].oppdaterAntallSolgte(antOnsket);
+				}
+			arrangementer[i].skriv();
+		}
+}
+
+int hentPris(int i) //henter prisen fra Arrangemnt klassen
+{
+	int temp;
+
+	temp = arrangementer[i].hentPris();
+
+	return temp;
+}
+
+//  Leser data om alle arrangementene BIN’RT fra filen "BIL_OLXX.RES":
+void lesBilletterFraFil()  {
+	int i = 0;
+	ifstream innfil("bil_olxx.res", ios::binary);
+	if (!innfil)
+	{
+		std::cout << "\n\nFant ikke fil\n\n";
 	}
 	else
-		cout << "\nFinner ikke filen 'faktura.txt'" << endl;
-}			//hvis filen ikke finnes og den ikke kan bli lagd skrives denne teksten ut.
-
-
-
-
-//  definisjon av funksjoner
-
-//  Leser innholdet av filen "KUN_OLXX.DTA".
-//  Filformat:
-//    Felt:  <navn>  (<arrNr>  <billetter fått>  <pris per arr>) * antrr med bill <total sum>
-
-void lesBilletterFraBinFil() //leser fra bilett fila
-{
-	int i;
-	ifstream innfil("bil_olxx.res", ios::binary);
-	if (innfil)
 	{
-		for (i = 1; i < ANTARR; i++)
-			innfil.read((char *)& i[arrangementer], sizeof(Arrangement));
+		do
+		{
+			innfil.read((char*)& arrangementer[i], sizeof(arrangementer));
+		} while (!innfil.eof());
 	}
+
 }
 
-void lesKunderFraBinFil()  //leser fra kundenes binar fil 
-{
+
+//  leser data om alle kundene BIN’RT fra filen "KUN_OLXX.RES":
+void lesKunderFraFil()  {
 	int i = 0;
 	ifstream innfil("kun_olxx.res", ios::binary);
 	if (!innfil)
 	{
-		cout << "fant ikke fil";
+		std::cout << "\n\nFant ikke fil\n\n";
 	}
 	else
 	{

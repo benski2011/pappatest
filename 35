@@ -10,16 +10,16 @@ const int  ANTKUNDER = 201;           //  antall kunder
 const int  NVNLEN = 20;           // kunde navns lengde
 const int  ARRLEN = 35;           //  arrengement navn lengde
 
-			//deklrasjon av funksjoner
-			
+//deklrasjon av funksjoner
+
 void lesBilletterFraBinFil(); //funksjonen leser fra biletter bin fil
 void lesKunderFraBinFil();    //funksjon leser fra binar fil til kunder
 void WritetoASCII();          // skriver til ascii fila
 
 //  KLASSER:
-class Kunde 
+class Kunde
 {         //klasse for kunde
-private:             
+private:
 	char navn[NVNLEN];                 //   navn.
 	int  antBestilt[ANTARR];           //  Antall bestilte per arrangement
 	int  antFaatt[ANTARR];             //  Antall biletter han har fått per arrengement.
@@ -32,7 +32,7 @@ public:                              //funksjoner
 };
 
 
-class Arrangement 
+class Arrangement
 {
 private:
 	char tittel[ARRLEN];               //  Arrangementets navn.
@@ -54,7 +54,7 @@ Arrangement  arrangementer[ANTARR];    //  Alle arrangementene.
 
 
 //  int main:
-int main() 
+int main()
 {
 	cout << "\n\n\tLeser data fra filene "   //les funksjon
 		<< "'BIL_OLXX.RES' og 'KUN_OLXX.RES' .....\n\n";
@@ -122,7 +122,7 @@ void Arrangement::hentPris(int num, int& tot) //henter pris
 
 
 
-void WritetoASCII() 
+void WritetoASCII()
 {
 	char kunNavn[NVNLEN], arrNavn[ARRLEN];   //Kundens og arrangement navn.
 	int  antArr, antBill;         //  Variabler
@@ -148,7 +148,7 @@ void WritetoASCII()
 				if (antBill > 0)						          	//hvis antall biletter er
 				{										                  	//større enn null så skrives
 					arrangementer[i].hentNavn(arrNavn);		//bilettene ut til fil
-					arrangementer[i].hentPris(antBill, pris);	
+					arrangementer[i].hentPris(antBill, pris);
 					utfil << arrNavn;				        		//Billetene skrives ut med
 					if (i % 2 == 0)					        		//antall biletter kjøpt
 						utfil << '\t';				        		//og navn på arrangement
@@ -186,11 +186,17 @@ void lesBilletterFraBinFil() //leser fra bilett fila
 
 void lesKunderFraBinFil()  //leser fra kundenes binar fil 
 {
-	int i;
+	int i = 0;
 	ifstream innfil("kun_olxx.res", ios::binary);
-	if (innfil)
+	if (!innfil)
 	{
-		for (i = 1; i <= ANTKUNDER; i++)
-			innfil.read((char *)& i[kunder], sizeof(Kunde));
+		cout << "fant ikke fil";
+	}
+	else
+	{
+		do
+		{
+			innfil.read((char*)& kunder[i], sizeof(kunder));
+		} while (!innfil.eof());
 	}
 }

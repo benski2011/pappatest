@@ -1,0 +1,377 @@
+// benjamin skinstad spillprog, 470918
+
+#include <iostream>
+#include <string>
+#include <string.h>		
+
+using namespace std; 
+
+					   	//globale conster
+const int STRLEN = 20;	 //string lengde 
+
+
+						 //deklarasjon av klasser
+class Dyr				 //innholder alt det viktige
+{
+private:
+	char orden[STRLEN];  //strl
+	bool virveldyr;		 //virveldyr eller ei
+	bool sjelettLoest;  //skjellet eller ei
+	char valg;
+public:					// funksjon definisjoenr
+	void lesOrden();
+	void skrivInfo();
+	void lesInfo();
+	Dyr();				//contructor
+	~Dyr();				//decontructor
+
+};
+class DyrLuft : public Dyr //arver av dyr 
+{
+private:
+	char slekt[STRLEN];
+public:
+	void lesSlekt();
+	void skrivSlekt();
+	DyrLuft();
+	~DyrLuft();
+};
+class DyrVann : public Dyr //arver av dyr 
+{
+private:
+	char slekt[STRLEN];
+public:
+	void lesSlekt();
+	void skrivSlekt();
+	DyrVann();
+	~DyrVann();
+};
+class Fugl : public DyrLuft //arver av dyriluft 
+{
+private:
+	char art[STRLEN];
+public:
+	void lesArt();
+	void skrivArt();
+	Fugl();
+	~Fugl();
+};
+class Insekt : public DyrLuft //arver av dyrluft 
+{
+private:
+	char art[STRLEN];
+public:
+	void lesArt();
+	void skrivArt();
+	Insekt();
+	~Insekt();
+};
+class Fisk : public DyrVann //arver av dyrvann
+{
+private:
+	char art[STRLEN];
+public:
+	void lesArt();
+	void skrivArt();
+	Fisk();
+	Fisk(const char t[]);
+	~Fisk();
+};
+class Skalldyr : public DyrVann //arver av dyrvann
+{
+private:
+	char art[STRLEN];
+public:
+	void lesArt();
+	void skrivArt();
+	Skalldyr();
+	~Skalldyr();
+};
+
+//Deklarasjon av ikkeklassefunksjoner
+void les(const char t[], char s[], const int LEN);
+char les();
+char les(char a, char b);
+int les(const char t[], const int MIN, const int MAX);
+
+//overloaded les funksjoner 
+
+void skriv(const char t[]);
+void skrivMenyArt();
+void skrivDikt();
+
+
+//Definisjon av klassefunskjoner
+void Dyr::lesOrden()
+{
+	les("Skriv inn dyrets orden", orden, STRLEN);
+}
+void Dyr::lesInfo() //funksjon for innlesing infomasjon av dyr
+{
+	lesOrden();
+	cout << "\tHar dyret ryggvirvler:   Y/N\n";
+	valg = les('Y', 'N');
+	if (valg == 'Y')
+	{
+		virveldyr = true;
+		sjelettLoest = false;
+	}
+	else
+	{
+		cout << "\tHar dyret et ytre skjelett:		Y/N\n";
+		valg = les('Y', 'N');
+		if (valg = 'Y')
+		{
+			virveldyr = false;
+			sjelettLoest = false;
+		}
+		else
+		{
+			virveldyr = false;
+			sjelettLoest = true;
+		}
+	}
+}
+// sjekker om dyret har ryggvirvler og yttere skjellet 
+
+void Dyr::skrivInfo()	//
+{
+	skriv(orden);
+	if (virveldyr == false && sjelettLoest == false)
+	{
+		cout << "\tDyret har et ytre skjelett\n";
+	}
+	else if (virveldyr == true)
+	{
+		cout << "\tDyret har et ryggvirvler\n";
+	}
+	else if (sjelettLoest == true)
+	{
+		cout << "\tDyret har ikke et skjelett\n";
+	}
+}
+// skriver ut infoen funnet ut i lesinfo
+
+//funskjoner som leser inn og skriver ut infomansjon om dyret
+void DyrLuft::lesSlekt()
+{
+	les("Skriv inn dyrets slekt", slekt, STRLEN);
+}
+void DyrLuft::skrivSlekt()
+{
+	skriv(slekt);
+	skrivInfo();
+}
+void DyrVann::lesSlekt()
+{
+	les("Skriv inn dyrets slekt", slekt, STRLEN);
+}
+void DyrVann::skrivSlekt()
+{
+	skriv(slekt);
+	skrivInfo();
+}
+void Fisk::lesArt()
+{
+	les("Les inn navn paa art", art, STRLEN);
+}
+void Fisk::skrivArt()
+{
+	skriv(art);
+	skrivSlekt();
+
+}
+void Fugl::lesArt()
+{
+	les("Les inn navn paa art", art, STRLEN);
+}
+void Fugl::skrivArt()
+{
+	skriv(art);
+	skrivSlekt();
+
+}
+void Skalldyr::lesArt()
+{
+	les("Les inn navn paa art", art, STRLEN);
+}
+void Skalldyr::skrivArt()
+{
+	skriv(art);
+	skrivSlekt();
+
+}
+void Insekt::lesArt()
+{
+	les("Les inn navn paa art", art, STRLEN);
+}
+void Insekt::skrivArt()
+{
+	skriv(art);
+	skrivSlekt();
+
+}
+
+
+//Definisjon av klassekonstrucktorer og klassedestrucktorer
+Dyr::Dyr()
+{
+	lesInfo();
+}
+Dyr::~Dyr()
+{
+	cout << "Hadde dyret\t";
+}
+DyrLuft::DyrLuft()
+{
+	lesSlekt();
+}
+DyrLuft::~DyrLuft()
+{
+}
+DyrVann::DyrVann()
+{
+	lesSlekt();
+}
+DyrVann::~DyrVann()
+{
+}
+Insekt::Insekt()
+{
+	lesArt();
+}
+Insekt::~Insekt()
+{
+
+}
+Fugl::Fugl()
+{
+	lesArt();
+}
+Fugl::~Fugl()
+{
+
+}
+Fisk::Fisk()
+{
+	lesArt();
+}
+Fisk::Fisk(const char t[])
+{
+	strcpy_s(art, t);
+}
+Fisk::~Fisk()
+{
+
+}
+Skalldyr::Skalldyr()
+{
+	lesArt();
+}
+Skalldyr::~Skalldyr()
+{
+
+}
+
+
+//Definisjon av ikkeklassefunksjoner
+void les(const char t[], char s[], const int LEN)
+{
+	cout << '\t' << t << ": ";	//  Skriver ledetekst.
+	cin.getline(s, LEN);        //  Leser inn tekst.
+}
+int les(const char t[], const int MIN, const int MAX)	//leser inn et tall
+{
+	int n;
+	do {
+		cout << '\t' << t << " (" << MIN << '-' << MAX << "): ";
+		cin >> n;  cin.ignore();
+	} while (n < MIN || n > MAX);
+	return n;
+}
+char les() {                //  Leser og upcaser ett tegn:
+	char ch;
+	cout << "\n\tKommando: ";   cin >> ch;   cin.ignore();
+	return (toupper(ch));
+}
+char les(char a, char b) {                //  Leser og upcaser ett tegn:
+	char ch = b;
+	while (ch != a || ch != b)
+	{
+		cout << "\n\tKommando: ";   cin >> ch;   cin.ignore();
+		return (toupper(ch));
+	}
+}
+void skriv(const char t[])
+{
+	cout << '\t' << t << '\n';
+}
+void skrivMenyArt() //menyen for art
+{
+		cout << "\n\tHvilket dyr vil du skriv inn:\n"
+		<< "\t\tFisk - F\n"
+		<< "\t\tFugl - L\n"
+		<< "\t\tInsekt - I\n"
+		<< "\t\tSkalldyr - S\n"
+		<< "\t\tTERMINATE - X\n";
+}
+
+
+//		MAIN		
+int main()
+{
+	char valg;
+	char buffer[STRLEN];
+
+
+	cout << "velkommen til dette fancy programmet som leser inn dyr\n";
+	// apnings melding nar programmet starter
+
+	do {
+		skrivMenyArt(); //skriver menyen
+		valg = les();
+		switch (valg)
+		{
+		default: //alt annet
+			break;
+		
+		case 'F': //valg Fisk
+		{
+			les("Hvilken art har fisken", buffer, STRLEN);
+			if (strlen(buffer) != 0)
+			{
+				Fisk fisk(buffer);
+				fisk.skrivArt();
+			}
+			else
+			{
+				Fisk fisk;
+				fisk.skrivArt();
+			}
+
+			break;
+		}
+		case 'L': //valg fuggel
+		{
+			Fugl fugl;
+			fugl.skrivArt();
+			break;
+		}
+		case 'I': //valg insekt
+		{
+			Insekt bug;
+			bug.skrivArt();
+			break;
+		}
+		case 'S': // valg skalldyr
+		{
+			Skalldyr skalldyr;
+			skalldyr.skrivArt();
+			break;					
+		}
+
+		}
+
+	} while (valg != 'X'); // om x, exit
+	return 0;
+}
